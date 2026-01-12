@@ -109,7 +109,7 @@ export default function Navbar() {
                     </button>
 
                     {/* CENTER: Brand */}
-                    <Link href="/" className={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-2xl md:text-3xl font-bold tracking-[0.2em] font-heading uppercase z-[80] ${isDark ? 'text-black' : 'text-white'}`}>
+                    <Link href="/" className={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-xl sm:text-2xl md:text-3xl font-bold tracking-tight sm:tracking-[0.1em] md:tracking-[0.2em] font-heading uppercase z-[80] whitespace-nowrap ${isDark ? 'text-black' : 'text-white'}`}>
                         ZAKI-SHoP
                     </Link>
 
@@ -157,7 +157,7 @@ export default function Navbar() {
                                     onMouseEnter={() => setActiveImage(item.image)}
                                     onMouseLeave={() => setActiveImage(null)}
                                     className="group relative text-4xl md:text-6xl font-black text-transparent text-stroke-black hover:text-black transition-all duration-300 uppercase tracking-tighter w-fit"
-                                    style={{ transitionDelay: `${index * 50}ms` }}
+                                    style={{ transitionDelay: `${index * 50}ms`, transform: 'translateZ(0)' }}
                                 >
                                     {item.name}
                                     <span className="absolute -left-6 top-1/2 -translate-y-1/2 w-3 h-0.5 bg-[#d41132] scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></span>

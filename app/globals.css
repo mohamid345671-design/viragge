@@ -46,10 +46,25 @@ h6 {
 @layer utilities {
   .text-stroke-white {
     -webkit-text-stroke: 1px white;
+    paint-order: stroke fill;
+    -webkit-font-smoothing: antialiased;
   }
 
   .text-stroke-black {
     -webkit-text-stroke: 1px black;
+    paint-order: stroke fill;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Mobile-optimized text stroke (thinner for better readability) */
+  @media (max-width: 768px) {
+    .text-stroke-white {
+      -webkit-text-stroke: 0.75px white;
+    }
+    
+    .text-stroke-black {
+      -webkit-text-stroke: 0.75px black;
+    }
   }
 }
 

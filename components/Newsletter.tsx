@@ -77,7 +77,10 @@ export default function Newsletter() {
                                 onChange={(e) => setEmail(e.target.value)}
                                 placeholder="ENTER YOUR EMAIL"
                                 required
-                                className="w-full bg-transparent border-b border-white/20 py-5 text-center text-white placeholder-white/30 focus:border-white focus:outline-none transition-all text-sm md:text-lg tracking-[0.15em] font-medium"
+                                autoComplete="email"
+                                autoCapitalize="off"
+                                autoCorrect="off"
+                                className="w-full bg-transparent border-b border-white/20 py-5 text-center text-white placeholder-white/30 focus:border-white focus:outline-none transition-colors duration-300 text-base md:text-lg tracking-[0.15em] font-medium"
                             />
                             <button
                                 type="submit"

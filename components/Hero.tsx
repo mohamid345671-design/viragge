@@ -37,7 +37,7 @@ export default function Hero() {
             <h1 className="text-5xl font-black uppercase tracking-tighter leading-[0.85] text-white mb-6 opacity-0 animate-slideUp animate-delay-200 drop-shadow-2xl">
               Tactical
               <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-400">
+              <span className="text-gray-300">
                 Luxury
               </span>
             </h1>
@@ -89,7 +89,7 @@ export default function Hero() {
             <h1 className="text-[7rem] font-black uppercase tracking-tighter leading-[0.85] text-white mb-8 opacity-0 animate-slideUp animate-delay-200">
               Tactical
               <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-200 to-gray-500">
+              <span className="text-gray-400">
                 Luxury
               </span>
             </h1>

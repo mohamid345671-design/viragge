@@ -247,7 +247,7 @@ export default function SocialProof({
                                 }`}
                             style={{ transitionDelay: `${500 + index * 100}ms` }}
                         >
-                            <p className="text-4xl md:text-6xl font-black bg-gradient-to-br from-white to-gray-400 bg-clip-text text-transparent mb-2">
+                            <p className="text-4xl md:text-6xl font-black text-white mb-2">
                                 {stat.number}
                             </p>
                             <p className="text-gray-500 text-xs uppercase tracking-[0.2em] font-medium">

@@ -61,7 +61,7 @@ h6 {
     .text-stroke-white {
       -webkit-text-stroke: 0.75px white;
     }
-    
+
     .text-stroke-black {
       -webkit-text-stroke: 0.75px black;
     }
@@ -204,6 +204,36 @@ h6 {
 /* Hide scrollbar while maintaining scroll functionality */
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
+}
+
+/* ===================================
+   PERFORMANCE: Reduced Motion for Low-End Devices 
+   =================================== */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Performance hint for transforms */
+.hover\:scale-105:hover,
+.hover\:scale-110:hover,
+.group-hover\:scale-105,
+.group-hover\:scale-110 {
+  will-change: transform;
+}
+
+.hover\:scale-105,
+.hover\:scale-110,
+.group:hover .group-hover\:scale-105,
+.group:hover .group-hover\:scale-110 {
+  will-change: auto;
 }
 
 .hide-scrollbar {

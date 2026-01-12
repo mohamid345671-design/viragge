@@ -17,15 +17,15 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'ezzaytouny | Premium Tactical Streetwear',
+  title: 'Viragge | Premium Tactical Streetwear',
   description: 'Redefining urban luxury. Premium hoodies, cargo pants, and tactical gear handmade in Morocco. Free shipping & Cash on Delivery.',
   keywords: 'streetwear, morocco, tactical fashion, premium hoodies, cargo pants, strectify, urban clothing',
   openGraph: {
-    title: 'ezzaytouny | Premium Tactical Streetwear',
+    title: 'Viragge | Premium Tactical Streetwear',
     description: 'Redefining urban luxury. Premium hoodies, cargo pants, and tactical gear.',
     type: 'website',
     locale: 'en_US',
-    siteName: 'ezzaytouny',
+    siteName: 'Viragge',
   },
 };
 

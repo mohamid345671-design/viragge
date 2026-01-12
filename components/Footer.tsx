@@ -12,7 +12,7 @@ export default function Footer() {
                     {/* Column 1: Brand */}
                     <div className="space-y-6">
                         <Link href="/" className="text-3xl font-bold tracking-[0.2em] uppercase">
-                            STRECTIFY
+                            VIRAGGE
                         </Link>
                         <p className="text-gray-400 text-sm leading-relaxed">
                             Premium tactical streetwear designed for the modern urbanite. Quality craftsmanship meets contemporary style.
@@ -137,7 +137,7 @@ export default function Footer() {
                 {/* Bottom Bar */}
                 <div className="mt-16 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
                     <p className="text-gray-500 text-xs uppercase tracking-wider">
-                        © {currentYear} Strectify. All rights reserved.
+                        © {currentYear} Viragge. All rights reserved.
                     </p>
                     <p className="text-gray-500 text-xs uppercase tracking-wider">
                         Designed & Crafted in Fes, Morocco 🇲🇦

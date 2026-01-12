@@ -6,12 +6,21 @@ interface ProductOptionsProps {
     sizes: string[] | string;
     onSizeSelect: (size: string) => void;
     selectedSize: string;
+    onColorSelect?: (color: string) => void;
+    selectedColor?: string;
 }
 
-export default function ProductOptions({ sizes, onSizeSelect, selectedSize }: ProductOptionsProps) {
+export default function ProductOptions({ sizes, onSizeSelect, selectedSize, onColorSelect, selectedColor = 'Black' }: ProductOptionsProps) {
     const [quantity, setQuantity] = useState(1);
     const [showSizeGuide, setShowSizeGuide] = useState(false);
     const [showValidationError, setShowValidationError] = useState(false);
+
+    // Available colors
+    const colors = [
+        { name: 'Black', value: '#000000', border: '#333333' },
+        { name: 'White', value: '#FFFFFF', border: '#E5E7EB' },
+        { name: 'Gray', value: '#6B7280', border: '#4B5563' },
+    ];
 
     // Normalize sizes to array
     const sizeArray = Array.isArray(sizes) ? sizes : (sizes ? [sizes] : []);
@@ -31,61 +40,124 @@ export default function ProductOptions({ sizes, onSizeSelect, selectedSize }: Pr
     return (
         <>
             <div className="space-y-8">
-                {/* Size Selector */}
+                {/* Color Selector */}
                 <div className="space-y-4">
-                    <div className="flex justify-between items-center text-sm uppercase tracking-widest font-bold text-[#0f0f0f]">
-                        <span>Select Size</span>
-                        <button
-                            onClick={() => setShowSizeGuide(true)}
-                            className="text-[#6b7280] hover:text-[#0f0f0f] transition-colors underline decoration-1 underline-offset-4 font-normal"
-                        >
-                            Size Guide
-                        </button>
+                    <div className="flex items-center justify-between">
+                        <p className="text-sm font-bold text-black">
+                            Color: <span className="font-normal text-gray-700">{selectedColor}</span>
+                        </p>
                     </div>
-                    <div className={`grid grid-cols-3 md:grid-cols-6 gap-2 ${showValidationError ? 'animate-shake' : ''}`}>
-                        {sizeArray.map((size) => (
+                    <div className="flex items-center gap-4">
+                        {colors.map((color) => (
                             <button
-                                key={size}
-                                onClick={() => handleSizeClick(size)}
-                                className={`relative py-3 px-4 text-sm font-bold uppercase transition-all rounded-lg ${selectedSize === size
-                                    ? 'bg-[#0f0f0f] text-white border border-[#0f0f0f] shadow-lg scale-105'
-                                    : showValidationError
-                                        ? 'bg-white text-[#6b7280] border-2 border-[#d41132] hover:border-[#d41132]'
-                                        : 'bg-white text-[#6b7280] border border-[#e5e7eb] hover:border-[#0f0f0f] hover:text-[#0f0f0f] hover:shadow-md'
+                                key={color.name}
+                                onClick={() => onColorSelect?.(color.name)}
+                                className={`relative group flex items-center justify-center transition-all duration-300 ${selectedColor === color.name
+                                        ? 'scale-105'
+                                        : 'hover:scale-105'
                                     }`}
+                                title={color.name}
+                                aria-label={`Select ${color.name} color`}
                             >
-                                {size}
-                                {selectedSize === size && (
-                                    <svg
-                                        className="absolute top-1 right-1 w-3 h-3"
-                                        fill="currentColor"
-                                        viewBox="0 0 20 20"
-                                    >
-                                        <path
-                                            fillRule="evenodd"
-                                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                            clipRule="evenodd"
-                                        />
-                                    </svg>
-                                )}
+                                <div
+                                    className={`w-14 h-14 rounded-full transition-all duration-300 ${selectedColor === color.name
+                                            ? 'ring-[3px] ring-black shadow-lg'
+                                            : 'ring-1 ring-gray-300 hover:ring-2 hover:ring-gray-400 shadow-sm'
+                                        }`}
+                                    style={{
+                                        backgroundColor: color.value,
+                                    }}
+                                >
+                                    {/* Checkmark for selected */}
+                                    {selectedColor === color.name && (
+                                        <div className="absolute inset-0 flex items-center justify-center">
+                                            <svg
+                                                className="w-6 h-6 text-white drop-shadow-lg"
+                                                fill="currentColor"
+                                                viewBox="0 0 20 20"
+                                                style={{ filter: color.name === 'White' ? 'invert(1)' : 'none' }}
+                                            >
+                                                <path
+                                                    fillRule="evenodd"
+                                                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                                    clipRule="evenodd"
+                                                />
+                                            </svg>
+                                        </div>
+                                    )}
+                                </div>
+
+                                {/* Color name below swatch */}
+                                <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[11px] text-gray-600 whitespace-nowrap">
+                                    {color.name}
+                                </span>
                             </button>
                         ))}
                     </div>
                 </div>
 
+                {/* Size Selector */}
+                <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                        <p className="text-sm font-bold text-black">Select Size</p>
+                        <button
+                            onClick={() => setShowSizeGuide(true)}
+                            className="text-xs text-gray-600 hover:text-black underline underline-offset-2 transition-colors"
+                        >
+                            Size Guide
+                        </button>
+                    </div>
+
+                    <div className={`grid grid-cols-3 gap-3 ${showValidationError ? 'animate-shake' : ''}`}>
+                        {sizeArray.map((size) => (
+                            <button
+                                key={size}
+                                onClick={() => handleSizeClick(size)}
+                                className={`relative py-4 px-4 text-sm font-bold uppercase transition-all duration-200 border-2 ${selectedSize === size
+                                        ? 'bg-black text-white border-black'
+                                        : showValidationError
+                                            ? 'bg-white text-gray-700 border-red-500'
+                                            : 'bg-white text-gray-700 border-gray-300 hover:border-black'
+                                    }`}
+                                aria-label={`Select size ${size}`}
+                            >
+                                {size}
+                            </button>
+                        ))}
+                    </div>
+
+                    {/* Helper text */}
+                    <p className="text-xs text-gray-500 mt-2">
+                        💡 Fits true to size
+                    </p>
+                </div>
+
                 {/* Quantity Selector */}
                 <div className="space-y-4">
-                    <span className="text-sm uppercase tracking-widest font-bold text-[#0f0f0f]">Quantity</span>
-                    <div className="flex items-center space-x-4">
+                    <p className="text-sm font-bold text-black">Quantity</p>
+                    <div className="flex items-center gap-4">
                         <button
                             onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                            className="w-12 h-12 border border-[#e5e7eb] rounded-lg flex items-center justify-center hover:bg-[#0f0f0f] hover:text-white hover:border-[#0f0f0f] transition-all text-lg font-medium shadow-sm hover:shadow-md"
-                        >−</button>
-                        <span className="text-xl font-bold w-8 text-center text-[#0f0f0f]">{quantity}</span>
+                            disabled={quantity <= 1}
+                            className="w-12 h-12 border-2 border-gray-300 flex items-center justify-center hover:bg-black hover:text-white hover:border-black transition-all disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-gray-700 disabled:hover:border-gray-300"
+                            aria-label="Decrease quantity"
+                        >
+                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
+                            </svg>
+                        </button>
+
+                        <span className="text-lg font-bold w-12 text-center">{quantity}</span>
+
                         <button
                             onClick={() => setQuantity(quantity + 1)}
-                            className="w-12 h-12 border border-[#e5e7eb] rounded-lg flex items-center justify-center hover:bg-[#0f0f0f] hover:text-white hover:border-[#0f0f0f] transition-all text-lg font-medium shadow-sm hover:shadow-md"
-                        >+</button>
+                            className="w-12 h-12 border-2 border-gray-300 flex items-center justify-center hover:bg-black hover:text-white hover:border-black transition-all"
+                            aria-label="Increase quantity"
+                        >
+                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                            </svg>
+                        </button>
                     </div>
                 </div>
             </div>

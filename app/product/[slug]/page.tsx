@@ -41,6 +41,7 @@ export default function ProductPage({ params, searchParams }: PageProps) {
     const [slug, setSlug] = useState<string>('');
     const [product, setProduct] = useState<Product | null>(null);
     const [selectedSize, setSelectedSize] = useState('');
+    const [selectedColor, setSelectedColor] = useState('Black'); // Default color
     const [loading, setLoading] = useState(true);
 
     // Ref for smooth scrolling to form
@@ -199,6 +200,8 @@ export default function ProductPage({ params, searchParams }: PageProps) {
                                 sizes={availableSizes}
                                 selectedSize={selectedSize}
                                 onSizeSelect={setSelectedSize}
+                                selectedColor={selectedColor}
+                                onColorSelect={setSelectedColor}
                             />
 
                             {/* Order Form with ref for scrolling */}

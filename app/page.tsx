@@ -1,10 +1,26 @@
 import Hero from '@/components/Hero';
 import FeatureBar from '@/components/FeatureBar';
 import FeaturedProducts from '@/components/FeaturedProducts';
-import SocialProof from '@/components/SocialProof';
-import Newsletter from '@/components/Newsletter';
 import { graphqlClient, GET_CATEGORIES } from '@/lib/graphql';
 import MasonryGrid from '@/components/MasonryGrid';
+import dynamicImport from 'next/dynamic';
+
+// Lazy load below-the-fold components for better performance
+const SocialProof = dynamicImport(() => import('@/components/SocialProof'), {
+  loading: () => <div className="h-96 bg-white" />,
+  ssr: true, // Keep SSR for SEO
+});
+
+const Newsletter = dynamicImport(() => import('@/components/Newsletter'), {
+  loading: () => <div className="h-64 bg-black" />,
+  ssr: true,
+});
+
+const Footer = dynamicImport(() => import('@/components/Footer'), {
+  loading: () => <div className="h-96 bg-black" />,
+  ssr: true,
+});
+
 export const dynamic = 'force-dynamic';
 export default async function Home() {
   let categories = [];
@@ -34,6 +50,9 @@ export default async function Home() {
 
       {/* 6. Newsletter */}
       <Newsletter />
+
+      {/* 7. Footer */}
+      <Footer />
     </main>
   );
 }

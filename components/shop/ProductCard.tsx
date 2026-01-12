@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, memo } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
 
 interface ProductCardProps {
@@ -10,7 +10,7 @@ interface ProductCardProps {
     priority?: boolean;
 }
 
-export default function ProductCard({ product, priority = false }: ProductCardProps) {
+const ProductCard = memo(function ProductCard({ product, priority = false }: ProductCardProps) {
     const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false });
     const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -75,6 +75,8 @@ export default function ProductCard({ product, priority = false }: ProductCardPr
                         className={`object-contain p-4 transition-all duration-500 ${images.length > 1 ? 'group-hover:opacity-0 group-hover:scale-110' : 'group-hover:scale-105'}`}
                         priority={priority}
                         sizes="(max-width: 768px) 50vw, 25vw"
+                        quality={75}
+                        loading={priority ? undefined : 'lazy'}
                     />
 
                     {/* Hover Image */}
@@ -85,6 +87,8 @@ export default function ProductCard({ product, priority = false }: ProductCardPr
                             fill
                             className="object-contain p-4 absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-500 group-hover:scale-105"
                             sizes="(max-width: 768px) 50vw, 25vw"
+                            quality={75}
+                            loading="lazy"
                         />
                     )}
                 </div>
@@ -111,8 +115,9 @@ export default function ProductCard({ product, priority = false }: ProductCardPr
                                                     fill
                                                     className="object-contain p-4"
                                                     priority={priority && idx === 0}
-                                                    loading={idx === 0 ? undefined : 'lazy'}
+                                                    loading={idx === 0 ? (priority ? undefined : 'lazy') : 'lazy'}
                                                     sizes="50vw"
+                                                    quality={75}
                                                 />
                                             </div>
                                         </div>
@@ -147,6 +152,7 @@ export default function ProductCard({ product, priority = false }: ProductCardPr
                                 className="object-contain p-4"
                                 priority={priority}
                                 sizes="50vw"
+                                quality={75}
                             />
                         </div>
                     )}
@@ -167,4 +173,6 @@ export default function ProductCard({ product, priority = false }: ProductCardPr
             </div>
         </Link>
     );
-}
+});
+
+export default ProductCard;

@@ -24,13 +24,13 @@ export default function OrderForm({ disabled, productName, productId }: OrderFor
     // Floating label focus states
     const [focusedField, setFocusedField] = useState<string | null>(null);
 
-    // Major Moroccan cities
+    // Major Moroccan cities - reordered with most common first
     const cities = [
         'Casablanca',
         'Rabat',
-        'F es',
         'Marrakech',
         'Tangier',
+        'Fes',
         'Agadir',
         'Meknes',
         'Oujda',
@@ -105,7 +105,7 @@ export default function OrderForm({ disabled, productName, productId }: OrderFor
         }
     };
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         setFormData({
             ...formData,
             [e.target.name]: e.target.value
@@ -133,7 +133,7 @@ export default function OrderForm({ disabled, productName, productId }: OrderFor
                 Delivery Information
             </h3>
             <form onSubmit={handleSubmit} className="space-y-5">
-                {/* Full Name - Floating Label */}
+                {/* Full Name */}
                 <div className="relative">
                     <input
                         required
@@ -154,18 +154,61 @@ export default function OrderForm({ disabled, productName, productId }: OrderFor
                     </label>
                 </div>
 
-                {/* Address - Floating Label */}
+                {/* Phone Number */}
                 <div className="relative">
                     <input
                         required
-                        type="text"
+                        type="tel"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleChange}
+                        onFocus={() => setFocusedField('phone')}
+                        onBlur={() => setFocusedField(null)}
+                        placeholder="06XXXXXXXX"
+                        className="peer w-full bg-white border border-[#e5e7eb] rounded-lg py-3.5 px-4 text-[#0f0f0f] placeholder-transparent focus:border-[#0f0f0f] focus:outline-none focus:ring-2 focus:ring-[#0f0f0f]/20 transition-all"
+                    />
+                    <label className={`absolute left-4 transition-all duration-200 pointer-events-none ${focusedField === 'phone' || formData.phone
+                        ? '-top-2.5 text-xs font-bold bg-white px-1 text-[#0f0f0f]'
+                        : 'top-3.5 text-sm text-[#6b7280]'
+                        }`}>
+                        Phone Number *
+                    </label>
+                    <p className="text-xs text-gray-500 mt-1.5">
+                        📞 We will call you to confirm your order
+                    </p>
+                </div>
+
+                {/* City */}
+                <div>
+                    <label className="block text-xs font-bold uppercase tracking-wide text-[#6b7280] mb-2">
+                        City *
+                    </label>
+                    <select
+                        required
+                        name="city"
+                        value={formData.city}
+                        onChange={handleChange}
+                        className="w-full bg-white border border-[#e5e7eb] rounded-lg py-3.5 px-4 text-[#0f0f0f] focus:border-[#0f0f0f] focus:outline-none focus:ring-2 focus:ring-[#0f0f0f]/20 transition-all"
+                    >
+                        <option value="">Select your city</option>
+                        {cities.map(city => (
+                            <option key={city} value={city}>{city}</option>
+                        ))}
+                    </select>
+                </div>
+
+                {/* Address - Multiline */}
+                <div className="relative">
+                    <textarea
+                        required
                         name="address"
                         value={formData.address}
                         onChange={handleChange}
                         onFocus={() => setFocusedField('address')}
                         onBlur={() => setFocusedField(null)}
-                        className="peer w-full bg-white border border-[#e5e7eb] rounded-lg py-3.5 px-4 text-[#0f0f0f] placeholder-transparent focus:border-[#0f0f0f] focus:outline-none focus:ring-2 focus:ring-[#0f0f0f]/20 transition-all"
-                        placeholder="Address"
+                        rows={3}
+                        placeholder="Street, building, neighborhood"
+                        className="peer w-full bg-white border border-[#e5e7eb] rounded-lg py-3.5 px-4 text-[#0f0f0f] placeholder-transparent focus:border-[#0f0f0f] focus:outline-none focus:ring-2 focus:ring-[#0f0f0f]/20 transition-all resize-none"
                     />
                     <label className={`absolute left-4 transition-all duration-200 pointer-events-none ${focusedField === 'address' || formData.address
                         ? '-top-2.5 text-xs font-bold bg-white px-1 text-[#0f0f0f]'
@@ -173,49 +216,6 @@ export default function OrderForm({ disabled, productName, productId }: OrderFor
                         }`}>
                         Address *
                     </label>
-                </div>
-
-                {/* City & Phone in a row */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {/* City Dropdown */}
-                    <div>
-                        <label className="block text-xs font-bold uppercase tracking-wide text-[#6b7280] mb-2">
-                            City *
-                        </label>
-                        <select
-                            required
-                            name="city"
-                            value={formData.city}
-                            onChange={handleChange}
-                            className="w-full bg-white border border-[#e5e7eb] rounded-lg py-3.5 px-4 text-[#0f0f0f] focus:border-[#0f0f0f] focus:outline-none focus:ring-2 focus:ring-[#0f0f0f]/20 transition-all"
-                        >
-                            <option value="">Select city</option>
-                            {cities.map(city => (
-                                <option key={city} value={city}>{city}</option>
-                            ))}
-                        </select>
-                    </div>
-
-                    {/* Phone - Floating Label */}
-                    <div className="relative">
-                        <input
-                            required
-                            type="tel"
-                            name="phone"
-                            value={formData.phone}
-                            onChange={handleChange}
-                            onFocus={() => setFocusedField('phone')}
-                            onBlur={() => setFocusedField(null)}
-                            className="peer w-full bg-white border border-[#e5e7eb] rounded-lg py-3.5 px-4 text-[#0f0f0f] placeholder-transparent focus:border-[#0f0f0f] focus:outline-none focus:ring-2 focus:ring-[#0f0f0f]/20 transition-all mt-6"
-                            placeholder="Phone"
-                        />
-                        <label className={`absolute left-4 transition-all duration-200 pointer-events-none ${focusedField === 'phone' || formData.phone
-                            ? 'top-3.5 text-xs font-bold bg-white px-1 text-[#0f0f0f]'
-                            : 'top-9.5 text-sm text-[#6b7280]'
-                            }`}>
-                            Phone Number *
-                        </label>
-                    </div>
                 </div>
 
                 {errorMessage && (
@@ -227,9 +227,9 @@ export default function OrderForm({ disabled, productName, productId }: OrderFor
                 <button
                     type="submit"
                     disabled={disabled || isLoading}
-                    className={`w-full py-4 text-sm font-bold uppercase tracking-[0.2em] transition-all duration-300 rounded-xl relative overflow-hidden ${disabled || isLoading
+                    className={`w-full py-5 transition-all duration-300 rounded-xl relative overflow-hidden ${disabled || isLoading
                         ? 'bg-[#e5e7eb] text-[#6b7280] cursor-not-allowed'
-                        : 'bg-[#0f0f0f] text-white hover:bg-opacity-90 shadow-lg hover:shadow-xl hover:scale-[1.02]'
+                        : 'bg-[#0f0f0f] text-white hover:bg-opacity-90 shadow-lg hover:shadow-xl'
                         }`}
                 >
                     {isLoading ? (
@@ -238,16 +238,31 @@ export default function OrderForm({ disabled, productName, productId }: OrderFor
                                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
                                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                             </svg>
-                            <span>Processing...</span>
+                            <span className="text-sm font-bold uppercase tracking-wider">Processing...</span>
                         </span>
                     ) : (
-                        'Confirm Order - Cash on Delivery'
+                        <div className="flex flex-col gap-1">
+                            <span className="text-base font-black uppercase tracking-wider">Confirm Order</span>
+                            <span className="text-xs font-medium opacity-80">Cash on Delivery</span>
+                        </div>
                     )}
                 </button>
 
-                <p className="text-xs text-center text-[#6b7280] mt-4">
-                    💵 Pay with cash when you receive your order
-                </p>
+                {/* Trust Micro-copy */}
+                <div className="space-y-2 pt-2">
+                    <p className="text-xs text-center text-gray-600 flex items-center justify-center gap-2">
+                        <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                        </svg>
+                        No online payment required
+                    </p>
+                    <p className="text-xs text-center text-gray-600 flex items-center justify-center gap-2">
+                        <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                        </svg>
+                        Pay only when you receive the product
+                    </p>
+                </div>
             </form>
         </div>
     );

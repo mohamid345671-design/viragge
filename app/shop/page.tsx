@@ -207,56 +207,91 @@ function ShopContent() {
 
             <div className="container mx-auto px-6 max-w-7xl">
 
-                {/* Mobile Filter Toggle (Sticky) */}
-                <div className="lg:hidden sticky top-[72px] z-30 bg-white/95 backdrop-blur-md py-4 mb-6 border-b border-gray-200 flex justify-between items-center transition-all">
-                    <button
-                        onClick={() => setIsMobileFilterOpen(true)}
-                        className="flex items-center space-x-2 text-sm font-bold uppercase tracking-wider hover:text-[#d41132] transition-colors"
-                    >
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg>
-                        <span>Filter & Sort</span>
-                    </button>
-                    <span className="text-xs text-gray-500 font-mono">{filteredProducts.length} ITEMS</span>
+                {/* Mobile Filter Toggle (Sticky) - Enhanced */}
+                <div className="lg:hidden sticky top-[72px] z-30 bg-white/95 backdrop-blur-md py-4 mb-6 border-b border-gray-200 shadow-sm transition-all">
+                    <div className="flex justify-between items-center">
+                        <button
+                            onClick={() => setIsMobileFilterOpen(true)}
+                            className="relative flex items-center gap-2.5 px-4 py-2.5 bg-black text-white font-bold uppercase tracking-wider text-xs hover:bg-gray-800 transition-all active:scale-95 shadow-md"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg>
+                            <span>Filter & Sort</span>
+                            {(activeCategory !== 'All' || searchQuery) && (
+                                <span className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-red-600 text-white text-[10px] font-black rounded-full flex items-center justify-center animate-pulse">
+                                    {(activeCategory !== 'All' ? 1 : 0) + (searchQuery ? 1 : 0)}
+                                </span>
+                            )}
+                        </button>
+                        <div className="text-right">
+                            <p className="text-xs font-black text-black">{filteredProducts.length}</p>
+                            <p className="text-[10px] text-gray-500 uppercase tracking-wider">Items</p>
+                        </div>
+                    </div>
                 </div>
 
-                {/* Mobile Filter Drawer */}
-                <div className={`fixed inset-0 z-[60] lg:hidden transition-opacity duration-300 ${isMobileFilterOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
-                    <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setIsMobileFilterOpen(false)} />
-                    <div className={`absolute right-0 top-0 h-full w-[85vw] bg-white p-8 overflow-y-auto transform transition-transform duration-300 ${isMobileFilterOpen ? 'translate-x-0' : 'translate-x-full'}`}>
-                        <div className="flex justify-between items-center mb-8">
-                            <h2 className="text-xl font-black uppercase tracking-tighter">Filter</h2>
-                            <button onClick={() => setIsMobileFilterOpen(false)}>✕</button>
+                {/* Mobile Filter Drawer - Premium Design */}
+                <div className={`fixed inset-0 z-[60] lg:hidden transition-all duration-300 ${isMobileFilterOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
+                    {/* Glassmorphism Overlay */}
+                    <div
+                        className="absolute inset-0 bg-gradient-to-br from-black/60 to-black/40 backdrop-blur-md"
+                        onClick={() => setIsMobileFilterOpen(false)}
+                    />
+
+                    {/* Full-Width Drawer */}
+                    <div className={`absolute right-0 top-0 h-full w-full bg-white overflow-y-auto transform transition-all duration-500 ease-out ${isMobileFilterOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+                        {/* Header */}
+                        <div className="sticky top-0 bg-white z-10 px-6 py-5 border-b-2 border-black flex justify-between items-center shadow-sm">
+                            <div>
+                                <h2 className="text-2xl font-black uppercase tracking-tight">Filters</h2>
+                                {(activeCategory !== 'All' || searchQuery) && (
+                                    <p className="text-xs text-gray-500 mt-1">
+                                        {(activeCategory !== 'All' ? 1 : 0) + (searchQuery ? 1 : 0)} active
+                                    </p>
+                                )}
+                            </div>
+                            <button
+                                onClick={() => setIsMobileFilterOpen(false)}
+                                className="w-10 h-10 flex items-center justify-center bg-gray-100 hover:bg-black hover:text-white transition-all active:scale-90 font-bold text-xl"
+                            >
+                                ✕
+                            </button>
                         </div>
 
-                        {/* Mobile Content same as Sidebar */}
-                        <div className="space-y-8">
+                        {/* Content */}
+                        <div className="px-6 py-8 space-y-10">
                             {/* Search */}
                             <div>
-                                <h3 className="font-bold uppercase tracking-wider mb-4 text-sm border-b border-gray-200 pb-2">Search</h3>
+                                <h3 className="font-black uppercase tracking-[0.2em] mb-5 text-xs text-gray-500">Search Products</h3>
                                 <input
                                     type="text"
-                                    placeholder="Search..."
+                                    placeholder="Type to search..."
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
-                                    className="w-full bg-[#F5F5F5] border border-transparent p-3 text-sm focus:outline-none focus:bg-white focus:border-black transition-all"
+                                    className="w-full bg-gray-50 border-2 border-gray-200 p-4 text-base focus:outline-none focus:bg-white focus:border-black transition-all placeholder:text-gray-400"
                                 />
                             </div>
 
                             {/* Categories */}
                             <div>
-                                <h3 className="font-bold uppercase tracking-wider mb-4 text-sm border-b border-gray-200 pb-2">Categories</h3>
-                                <div className="flex flex-wrap gap-2">
+                                <h3 className="font-black uppercase tracking-[0.2em] mb-5 text-xs text-gray-500">Collections</h3>
+                                <div className="flex flex-wrap gap-3">
                                     <button
-                                        className={`px-3 py-1 text-sm border transition-all ${activeCategory === 'All' ? 'bg-black text-white border-black' : 'bg-white text-gray-600 border-gray-200'}`}
-                                        onClick={() => { setActiveCategory('All'); setIsMobileFilterOpen(false); }}
+                                        className={`px-5 py-3 text-sm font-bold uppercase tracking-wide transition-all duration-200 active:scale-95 ${activeCategory === 'All'
+                                                ? 'bg-black text-white shadow-lg scale-105'
+                                                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                            }`}
+                                        onClick={() => { setActiveCategory('All'); }}
                                     >
                                         All
                                     </button>
                                     {categories.map(cat => (
                                         <button
                                             key={cat.id}
-                                            className={`px-3 py-1 text-sm border transition-all ${activeCategory === cat.name ? 'bg-black text-white border-black' : 'bg-white text-gray-600 border-gray-200'}`}
-                                            onClick={() => { setActiveCategory(cat.name); setIsMobileFilterOpen(false); }}
+                                            className={`px-5 py-3 text-sm font-bold uppercase tracking-wide transition-all duration-200 active:scale-95 ${activeCategory === cat.name
+                                                    ? 'bg-black text-white shadow-lg scale-105'
+                                                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                                }`}
+                                            onClick={() => { setActiveCategory(cat.name); }}
                                         >
                                             {cat.name}
                                         </button>
@@ -266,26 +301,38 @@ function ShopContent() {
 
                             {/* Sort */}
                             <div>
-                                <h3 className="font-bold uppercase tracking-wider mb-4 text-sm border-b border-gray-200 pb-2">Sort By</h3>
-                                <select
-                                    value={sortBy}
-                                    onChange={(e) => setSortBy(e.target.value as SortOption)}
-                                    className="w-full bg-[#F5F5F5] p-3 text-sm focus:outline-none border-r-[10px] border-r-transparent"
-                                >
-                                    <option value="newest">Newest Drops</option>
-                                    <option value="price-low">Price: Low to High</option>
-                                    <option value="price-high">Price: High to Low</option>
-                                    <option value="name">Name: A-Z</option>
-                                </select>
+                                <h3 className="font-black uppercase tracking-[0.2em] mb-5 text-xs text-gray-500">Sort Order</h3>
+                                <div className="grid grid-cols-2 gap-3">
+                                    {[
+                                        { label: 'Newest', value: 'newest' },
+                                        { label: 'Price: Low', value: 'price-low' },
+                                        { label: 'Price: High', value: 'price-high' },
+                                        { label: 'Name A-Z', value: 'name' },
+                                    ].map((opt) => (
+                                        <button
+                                            key={opt.value}
+                                            onClick={() => setSortBy(opt.value as SortOption)}
+                                            className={`py-4 px-4 text-sm font-bold uppercase tracking-wide transition-all duration-200 active:scale-95 ${sortBy === opt.value
+                                                    ? 'bg-black text-white shadow-lg'
+                                                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                                }`}
+                                        >
+                                            {opt.label}
+                                        </button>
+                                    ))}
+                                </div>
                             </div>
                         </div>
 
-                        <button
-                            onClick={() => setIsMobileFilterOpen(false)}
-                            className="w-full bg-black text-white font-bold uppercase py-4 mt-10 tracking-widest"
-                        >
-                            Show {filteredProducts.length} Results
-                        </button>
+                        {/* Footer - Sticky Apply Button */}
+                        <div className="sticky bottom-0 bg-white border-t-2 border-gray-200 px-6 py-5 shadow-2xl">
+                            <button
+                                onClick={() => setIsMobileFilterOpen(false)}
+                                className="w-full bg-black text-white font-black uppercase py-5 tracking-[0.2em] text-sm hover:bg-gray-800 transition-all active:scale-95 shadow-lg"
+                            >
+                                Show {filteredProducts.length} Results
+                            </button>
+                        </div>
                     </div>
                 </div>
 
@@ -407,10 +454,14 @@ function ShopContent() {
                             </div>
                         )}
 
-                        {/* Loading State */}
+                        {/* Loading State with Stagger */}
                         {loading && (
                             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-                                {[...Array(8)].map((_, i) => <SkeletonCard key={i} />)}
+                                {[...Array(8)].map((_, i) => (
+                                    <div key={i} style={{ animationDelay: `${i * 50}ms` }} className="animate-fadeIn">
+                                        <SkeletonCard />
+                                    </div>
+                                ))}
                             </div>
                         )}
 

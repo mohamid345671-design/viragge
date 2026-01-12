@@ -176,7 +176,7 @@ export default function FeaturedProducts() {
                                                 {product.name}
                                             </h3>
                                             <p className="font-black text-base md:text-lg">
-                                                ${displayPrice.toFixed(2)}
+                                                {Math.round(displayPrice)} DH
                                             </p>
                                         </div>
                                     </Link>

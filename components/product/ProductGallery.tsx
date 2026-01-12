@@ -113,7 +113,7 @@ export default function ProductGallery({ images }: ProductGalleryProps) {
 
                 {/* Pagination Dots */}
                 {images.length > 1 && (
-                    <div className="flex justify-center items-center space-x-2 mt-4">
+                    <div className="flex justify-center items-center gap-2 mt-4">
                         {images.map((_, idx) => (
                             <button
                                 key={idx}
@@ -121,9 +121,9 @@ export default function ProductGallery({ images }: ProductGalleryProps) {
                                     setSelectedImage(idx);
                                     emblaApi?.scrollTo(idx);
                                 }}
-                                className={`h-2 rounded-full transition-all duration-300 ${selectedImage === idx
-                                    ? 'w-8 bg-[#0f0f0f]'
-                                    : 'w-2 bg-[#d1d5db] hover:bg-[#6b7280]'
+                                className={`h-2 rounded-full transition-all duration-500 ease-out ${selectedImage === idx
+                                        ? 'w-8 bg-[#0f0f0f] scale-110 shadow-md'
+                                        : 'w-2 bg-[#d1d5db] hover:bg-[#6b7280] hover:scale-125 opacity-60 hover:opacity-100'
                                     }`}
                                 aria-label={`Go to image ${idx + 1}`}
                             />

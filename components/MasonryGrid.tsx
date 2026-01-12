@@ -46,7 +46,7 @@ const CategoryCard = ({ category, index, isVisible, isEven }: CategoryCardProps)
             className="group block"
             aria-label={`Shop ${category.name} collection with ${category.count} items`}
         >
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-0 md:gap-8 bg-white border border-gray-100 overflow-hidden hover:border-gray-300 transition-all duration-500 hover:shadow-2xl rounded-none md:rounded-lg">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-0 md:gap-8 bg-white border-2 md:border border-gray-200 md:border-gray-100 overflow-hidden active:border-gray-400 md:hover:border-gray-300 transition-all duration-300 md:hover:shadow-2xl shadow-sm md:shadow-none rounded-none md:rounded-lg">
 
                 {/* IMAGE */}
                 <div
@@ -64,15 +64,15 @@ const CategoryCard = ({ category, index, isVisible, isEven }: CategoryCardProps)
                         priority={isPriority}
                         loading={isPriority ? undefined : 'lazy'}
                         sizes="(max-width: 768px) 100vw, 50vw"
-                        className="object-contain transition-transform duration-700 ease-out group-hover:scale-105"
+                        className="object-contain transition-transform duration-700 ease-out group-hover:scale-105 active:scale-105"
                     />
-                    {/* Gradient overlay on hover */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    {/* Gradient overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-500" />
                 </div>
 
                 {/* TEXT CONTENT */}
                 <div
-                    className={`flex flex-col justify-center p-8 md:p-12 lg:p-16 ${isEven ? 'md:order-2' : 'md:order-1'
+                    className={`flex flex-col justify-center p-10 md:p-12 lg:p-16 ${isEven ? 'md:order-2' : 'md:order-1'
                         } transition-all duration-700 ${isVisible
                             ? 'opacity-100 translate-y-0 scale-100'
                             : 'opacity-0 translate-y-12 scale-95'
@@ -81,42 +81,44 @@ const CategoryCard = ({ category, index, isVisible, isEven }: CategoryCardProps)
                 >
                     <div>
                         {/* Category Index */}
-                        <div className="text-xs font-mono text-gray-400 tracking-widest mb-3">
-                            ({String(index + 1).padStart(2, '0')})
+                        <div className="text-xs font-mono text-gray-400 tracking-[0.3em] mb-4 uppercase">
+                            Collection {String(index + 1).padStart(2, '0')}
                         </div>
 
                         {/* Category Name */}
-                        <h2 className="text-3xl md:text-5xl lg:text-6xl font-black uppercase tracking-tight mb-4 group-hover:text-[#d41132] transition-colors duration-300">
+                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-tight mb-5 md:mb-4 group-hover:text-[#d41132] transition-colors duration-300 leading-[0.95]">
                             {category.name}
                         </h2>
 
                         {/* Item Count */}
-                        <p className="text-sm md:text-base text-gray-500 mb-8 font-light">
+                        <p className="text-sm md:text-base text-gray-600 mb-8 md:mb-8 font-medium">
                             {category.count > 0 ? `${category.count} items available` : 'Explore collection'}
                         </p>
 
-                        {/* CTA with animated underline and arrow */}
-                        <div className="relative inline-flex items-center gap-3 text-sm font-bold uppercase tracking-widest text-black group-hover:text-[#d41132] transition-colors duration-300">
-                            <span className="relative">
-                                Shop {category.name}
-                                {/* Animated underline */}
-                                <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-[#d41132] transition-all duration-300 group-hover:w-full" />
-                            </span>
-                            {/* Animated arrow */}
-                            <svg
-                                className="w-5 h-5 transition-all duration-300 group-hover:translate-x-2"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                                aria-hidden="true"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M17 8l4 4m0 0l-4 4m4-4H3"
-                                />
-                            </svg>
+                        {/* Premium CTA Button */}
+                        <div className="inline-flex">
+                            <div className="inline-flex items-center gap-3 px-6 py-4 md:px-0 md:py-0 bg-black md:bg-transparent text-white md:text-black font-bold uppercase tracking-[0.2em] text-xs md:text-sm transition-all duration-300 group-hover:text-[#d41132] active:scale-95 md:active:scale-100 shadow-lg md:shadow-none">
+                                <span className="relative">
+                                    Shop Now
+                                    {/* Animated underline - desktop only */}
+                                    <span className="hidden md:block absolute left-0 bottom-0 w-0 h-0.5 bg-[#d41132] transition-all duration-300 group-hover:w-full" />
+                                </span>
+                                {/* Arrow */}
+                                <svg
+                                    className="w-4 h-4 md:w-5 md:h-5 transition-all duration-300 group-hover:translate-x-2"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    aria-hidden="true"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M17 8l4 4m0 0l-4 4m4-4H3"
+                                    />
+                                </svg>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -179,7 +181,7 @@ export default function MasonryGrid({ categories }: MasonryGridProps) {
                 </header>
 
                 {/* CATEGORY BLOCKS - Alternating Layout */}
-                <div className="max-w-7xl mx-auto space-y-12 md:space-y-20">
+                <div className="max-w-7xl mx-auto space-y-8 md:space-y-20">
                     {filteredCategories.map((category, index) => (
                         <div
                             key={category.id}

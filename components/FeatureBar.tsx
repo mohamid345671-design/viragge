@@ -1,6 +1,10 @@
 'use client';
 
+import { useState } from 'react';
+
 export default function FeatureBar() {
+    const [isPaused, setIsPaused] = useState(false);
+
     const features = [
         { icon: 'truck', title: 'FREE SHIPPING', desc: 'On all orders' },
         { icon: 'cash', title: 'CASH ON DELIVERY', desc: 'Pay when you receive' },
@@ -20,7 +24,7 @@ export default function FeatureBar() {
             fast: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />,
         };
         return (
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-6 h-6 transition-transform group-hover:scale-110 duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 {icons[type]}
             </svg>
         );
@@ -29,26 +33,34 @@ export default function FeatureBar() {
     const duplicatedFeatures = [...features, ...features];
 
     return (
-        <section className="bg-[#0a0a0a] border-y border-white/5 py-3 overflow-hidden">
+        <section className="relative bg-gradient-to-br from-[#0a0a0a] via-[#0f0f0f] to-[#0a0a0a] border-y border-white/10 py-4 overflow-hidden">
+            {/* Subtle glow effect */}
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(255,255,255,0.03)_0%,_transparent_70%)] pointer-events-none"></div>
+
             <div className="relative">
                 {/* Edge Fades */}
-                <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#0a0a0a] to-transparent z-10 pointer-events-none"></div>
-                <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[#0a0a0a] to-transparent z-10 pointer-events-none"></div>
+                <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-[#0a0a0a] via-[#0a0a0a]/80 to-transparent z-10 pointer-events-none"></div>
+                <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-[#0a0a0a] via-[#0a0a0a]/80 to-transparent z-10 pointer-events-none"></div>
 
                 {/* Marquee Track */}
-                <div className="flex animate-marquee">
+                <div
+                    className={`flex ${isPaused ? '' : 'animate-marquee'}`}
+                    onMouseEnter={() => setIsPaused(true)}
+                    onMouseLeave={() => setIsPaused(false)}
+                >
                     {duplicatedFeatures.map((feature, index) => (
-                        <div key={index} className="flex items-center shrink-0 mx-10">
-                            <span className="text-white/40 mr-3">
+                        <div key={index} className="group flex items-center shrink-0 mx-12 cursor-default">
+                            <span className="text-white/50 mr-4 group-hover:text-white/80 transition-colors">
                                 <Icon type={feature.icon} />
                             </span>
-                            <span className="text-white/90 text-[11px] font-bold tracking-[0.15em] uppercase whitespace-nowrap">
-                                {feature.title}
-                            </span>
-                            <span className="mx-3 text-white/20">—</span>
-                            <span className="text-white/40 text-[11px] tracking-wide whitespace-nowrap">
-                                {feature.desc}
-                            </span>
+                            <div className="flex flex-col">
+                                <span className="text-white/95 text-xs font-black tracking-[0.2em] uppercase whitespace-nowrap group-hover:text-white transition-colors">
+                                    {feature.title}
+                                </span>
+                                <span className="text-white/50 text-[10px] font-medium tracking-wider whitespace-nowrap mt-0.5 group-hover:text-white/70 transition-colors">
+                                    {feature.desc}
+                                </span>
+                            </div>
                         </div>
                     ))}
                 </div>

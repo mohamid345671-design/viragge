@@ -28,7 +28,7 @@ const ReturnIcon = () => (
 
 export default function ProductInfo({ name, price, category, isNew }: ProductInfoProps) {
     return (
-        <div className="space-y-4 md:space-y-6 font-display">
+        <div className="space-y-5 md:space-y-6 font-display">
             {isNew && (
                 <div className="flex items-center space-x-2 text-[#d41132] font-bold text-xs uppercase tracking-widest">
                     <span className="w-2 h-2 rounded-full bg-[#d41132] animate-pulse"></span>
@@ -36,48 +36,61 @@ export default function ProductInfo({ name, price, category, isNew }: ProductInf
                 </div>
             )}
 
+            {/* Product Title */}
             <h1 className="text-3xl md:text-5xl lg:text-6xl font-black uppercase tracking-tighter leading-[0.9] text-[#0f0f0f]">
                 {name}
             </h1>
 
-            {/* Star Rating */}
-            <div className="flex items-center space-x-2">
-                <div className="flex items-center space-x-0.5">
+            {/* Star Rating with Review Count */}
+            <div className="flex items-center gap-2">
+                {/* 5 Stars */}
+                <div className="flex items-center">
                     {[...Array(5)].map((_, i) => (
-                        <svg key={i} className="w-4 h-4 fill-[#FFD700]" viewBox="0 0 20 20">
+                        <svg key={i} className="w-5 h-5 fill-[#FFD700]" viewBox="0 0 20 20">
                             <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
                         </svg>
                     ))}
                 </div>
-                <span className="text-xs text-[#6b7280] font-medium">(4.9)</span>
+                {/* Numeric Rating + Review Count */}
+                <span className="text-sm font-bold text-[#0f0f0f]">4.9</span>
+                <span className="text-sm text-gray-500">(127 reviews)</span>
             </div>
 
-            <div className="flex items-baseline space-x-3">
-                <span className="text-3xl md:text-4xl font-black text-[#0f0f0f]">{Math.round(price || 0)} DH</span>
+            {/* Price - Most Prominent */}
+            <div className="flex items-baseline gap-2">
+                <span className="text-5xl md:text-6xl font-black text-[#0f0f0f]">{Math.round(price || 0)}</span>
+                <span className="text-2xl font-bold text-gray-600">DH</span>
             </div>
 
+            {/* Category - Secondary Metadata */}
             {category && (
-                <p className="text-[#6b7280] text-xs uppercase tracking-wider font-medium">
-                    {category}
+                <p className="text-sm text-gray-600">
+                    Category: <span className="font-semibold text-gray-800">{category}</span>
                 </p>
             )}
 
             {/* COD Trust Section */}
-            <div className="pt-6 pb-6 border-t border-b border-[#e5e7eb] space-y-4">
-                <p className="text-sm font-semibold text-[#0f0f0f] leading-relaxed">
-                    Cash on Delivery – Pay when you receive your order
+            <div className="pt-6 pb-6 border-t border-b border-gray-200 space-y-4">
+                {/* Updated COD Message */}
+                <p className="text-sm font-bold text-[#0f0f0f] flex items-center gap-2">
+                    <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                    </svg>
+                    Pay on Delivery (No online payment)
                 </p>
-                <div className="flex flex-wrap gap-4 md:gap-6">
-                    <div className="flex items-center space-x-2 text-[10px] md:text-xs font-semibold uppercase tracking-wide text-[#6b7280]">
-                        <span className="text-[#0f0f0f]"><TruckIcon /></span>
+
+                {/* 3 Trust Icons */}
+                <div className="flex flex-wrap gap-5">
+                    <div className="flex items-center gap-2 text-xs font-semibold text-gray-600">
+                        <span className="text-gray-700"><TruckIcon /></span>
                         <span>Free Shipping</span>
                     </div>
-                    <div className="flex items-center space-x-2 text-[10px] md:text-xs font-semibold uppercase tracking-wide text-[#6b7280]">
-                        <span className="text-[#0f0f0f]"><CashIcon /></span>
+                    <div className="flex items-center gap-2 text-xs font-semibold text-gray-600">
+                        <span className="text-gray-700"><CashIcon /></span>
                         <span>Cash on Delivery</span>
                     </div>
-                    <div className="flex items-center space-x-2 text-[10px] md:text-xs font-semibold uppercase tracking-wide text-[#6b7280]">
-                        <span className="text-[#0f0f0f]"><ReturnIcon /></span>
+                    <div className="flex items-center gap-2 text-xs font-semibold text-gray-600">
+                        <span className="text-gray-700"><ReturnIcon /></span>
                         <span>30-Day Returns</span>
                     </div>
                 </div>

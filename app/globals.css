@@ -250,3 +250,146 @@ h6 {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* ===================================
+   iOS SAFARI INPUT FIX 
+   Critical fixes for iPhone/iPad Safari
+   =================================== */
+
+/* PROBLEM: Safari applies aggressive default styles to form inputs
+   that override custom CSS, especially with autofill */
+
+/* 1. Remove Safari default appearance and force custom styling */
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="number"],
+input[type="search"],
+input[type="password"],
+textarea,
+select {
+  /* Remove Safari's default appearance */
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
+
+  /* Force font smoothing for better text rendering on iOS */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 2. Handle Safari autofill background (THE CRITICAL FIX)
+   Safari uses an internal shadow for autofill - we override it with our own */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  /* The box-shadow trick: create a huge inset shadow that covers the background
+     This is the ONLY way to override Safari's autofill background color */
+  -webkit-box-shadow: 0 0 0 1000px #ffffff inset !important;
+  box-shadow: 0 0 0 1000px #ffffff inset !important;
+
+  /* Force text color for autofilled fields */
+  -webkit-text-fill-color: #0f0f0f !important;
+  color: #0f0f0f !important;
+
+  /* Ensure borders are visible */
+  border-color: #e5e7eb !important;
+
+  /* Prevent transition delays that can cause flashing */
+  transition: background-color 5000s ease-in-out 0s !important;
+}
+
+/* 3. Dark mode inputs (Newsletter component) - Special handling */
+input.bg-white\/5,
+input[type="email"].bg-white\/5 {
+  /* Override for dark background inputs */
+  -webkit-text-fill-color: #ffffff !important;
+  color: #ffffff !important;
+}
+
+input.bg-white\/5:-webkit-autofill,
+input.bg-white\/5:-webkit-autofill:hover,
+input.bg-white\/5:-webkit-autofill:focus {
+  /* Dark mode autofill - use dark background */
+  -webkit-box-shadow: 0 0 0 1000px rgba(255, 255, 255, 0.05) inset !important;
+  box-shadow: 0 0 0 1000px rgba(255, 255, 255, 0.05) inset !important;
+  -webkit-text-fill-color: #ffffff !important;
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* 4. Placeholder text visibility on iOS */
+input::placeholder,
+textarea::placeholder {
+  color: rgba(107, 114, 128, 0.6) !important;
+  opacity: 1 !important;
+  /* iOS reduces placeholder opacity by default */
+}
+
+/* Dark mode placeholders */
+input.bg-white\/5::placeholder {
+  color: rgba(255, 255, 255, 0.4) !important;
+  opacity: 1 !important;
+}
+
+/* 5. Select dropdown arrow fix for iOS */
+select {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 0.75rem center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  padding-right: 2.5rem !important;
+}
+
+/* 6. Ensure text is always visible (prevent transparent text on iOS) */
+input,
+textarea,
+select {
+  color: inherit !important;
+  -webkit-text-fill-color: inherit !important;
+}
+
+/* 7. Fix for focus states on iOS */
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+
+/* 8. Prevent zoom on input focus (only if font-size is already 16px+) */
+@media screen and (max-width: 768px) {
+
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="number"],
+  input[type="search"],
+  input[type="password"],
+  textarea,
+  select {
+    font-size: 16px !important;
+    /* Prevents iOS zoom */
+  }
+}
+
+/* WHY THIS HAPPENS:
+   1. Safari has built-in autofill styling that overrides CSS
+   2. iOS Safari treats input backgrounds differently than desktop
+   3. The -webkit-autofill pseudo-class can't have background-color changed normally
+   4. Safari's default appearance adds unwanted borders and shadows
+   5. iOS reduces text contrast for perceived "better" UX but breaks dark themes
+   
+   SOLUTION:
+   - Use box-shadow trick to "paint over" autofill background
+   - Force appearance: none to remove Safari defaults  
+   - Use !important to override Safari's aggressive specificity
+   - Handle both light and dark mode inputs separately
+*/

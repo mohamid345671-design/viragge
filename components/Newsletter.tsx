@@ -64,7 +64,7 @@ export default function Newsletter() {
 
                     {/* Headline */}
                     <h2 className="text-5xl md:text-6xl font-black uppercase tracking-tighter text-white mb-5">
-                        Join The <span className="bg-gradient-to-r from-white via-gray-300 to-white bg-clip-text text-transparent">Inner Circle</span>
+                        Join The <span className="text-white">Inner Circle</span>
                     </h2>
 
                     {/* Subheadline */}

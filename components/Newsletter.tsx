@@ -38,12 +38,16 @@ export default function Newsletter() {
     };
 
     return (
-        <section ref={sectionRef} className="relative bg-gradient-to-br from-[#050505] via-[#0a0a0a] to-[#050505] py-28 md:py-36 overflow-hidden border-t border-white/10">
+        <section ref={sectionRef} className="relative bg-black py-28 md:py-36 overflow-hidden border-t border-white/10" style={{
+            background: 'linear-gradient(135deg, #050505 0%, #0a0a0a 50%, #050505 100%)'
+        }}>
             {/* Background Pattern */}
             <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808010_1px,transparent_1px),linear-gradient(to_bottom,#80808010_1px,transparent_1px)] bg-[size:32px_32px] pointer-events-none"></div>
 
-            {/* Animated Glow */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-4xl h-80 bg-gradient-to-r from-white/5 via-white/10 to-white/5 blur-[140px] rounded-full pointer-events-none animate-pulse"></div>
+            {/* Animated Glow - Simplified for iOS */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-4xl h-80 opacity-10 pointer-events-none animate-pulse" style={{
+                background: 'radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 50%, transparent 100%)'
+            }}></div>
 
             <div className="container mx-auto px-6 relative z-10">
                 <div className={`max-w-2xl mx-auto text-center transition-all duration-1000 transform ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>

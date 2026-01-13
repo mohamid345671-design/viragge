@@ -50,13 +50,17 @@ const CategoryCard = ({ category, index, isVisible, isEven }: CategoryCardProps)
 
                 {/* IMAGE */}
                 <div
-                    className={`relative aspect-[3/4] md:aspect-square overflow-hidden bg-gray-50 ${isEven ? 'md:order-1' : 'md:order-2'
-                        } transition-all duration-700 ${isVisible
-                            ? 'opacity-100 translate-x-0 scale-100'
-                            : `opacity-0 ${isEven ? '-translate-x-12' : 'translate-x-12'} scale-95`
+                    className={`relative aspect-[4/5] md:aspect-square overflow-hidden bg-gray-50 ${isEven ? 'md:order-1' : 'md:order-2'
+                        } transition-all duration-300 md:duration-700 ${isVisible
+                            ? 'opacity-100 md:translate-x-0 scale-100'
+                            : `opacity-0 md:${isEven ? '-translate-x-12' : 'translate-x-12'} scale-95`
                         }`}
                     style={{ transitionDelay: `${index * 100}ms` }}
                 >
+                    {/* Mobile-only Category Badge */}
+                    <div className="absolute top-4 left-4 z-10 md:hidden bg-black/80 backdrop-blur-sm px-3 py-1.5 border border-white/20">
+                        <span className="text-white text-xs font-bold uppercase tracking-wider">{category.name}</span>
+                    </div>
                     <Image
                         src={displayImage}
                         alt={`${category.name} collection featuring premium streetwear`}
@@ -90,35 +94,32 @@ const CategoryCard = ({ category, index, isVisible, isEven }: CategoryCardProps)
                             {category.name}
                         </h2>
 
-                        {/* Item Count */}
-                        <p className="text-sm md:text-base text-gray-600 mb-8 md:mb-8 font-medium">
+                        {/* Item Count - Desktop only */}
+                        <p className="hidden md:block text-sm md:text-base text-gray-600 mb-8 md:mb-8 font-medium">
                             {category.count > 0 ? `${category.count} items available` : 'Explore collection'}
                         </p>
 
-                        {/* Premium CTA Button */}
-                        <div className="inline-flex">
-                            <div className="inline-flex items-center gap-3 px-6 py-4 md:px-0 md:py-0 bg-black md:bg-transparent text-white md:text-black font-bold uppercase tracking-[0.2em] text-xs md:text-sm transition-all duration-300 group-hover:text-[#d41132] active:scale-95 md:active:scale-100 shadow-lg md:shadow-none">
-                                <span className="relative">
-                                    Shop Now
-                                    {/* Animated underline - desktop only */}
-                                    <span className="hidden md:block absolute left-0 bottom-0 w-0 h-0.5 bg-[#d41132] transition-all duration-300 group-hover:w-full" />
-                                </span>
-                                {/* Arrow */}
-                                <svg
-                                    className="w-4 h-4 md:w-5 md:h-5 transition-all duration-300 group-hover:translate-x-2"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                    aria-hidden="true"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M17 8l4 4m0 0l-4 4m4-4H3"
-                                    />
+                        {/* Mobile: Button CTA */}
+                        <div className="md:hidden">
+                            <button className="w-full bg-black text-white py-3.5 px-6 font-bold uppercase tracking-wider text-xs flex items-center justify-center gap-2 active:scale-95 transition-transform">
+                                <span>View Collection</span>
+                                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                                 </svg>
-                            </div>
+                            </button>
+                        </div>
+
+                        {/* Desktop: Animated underline CTA */}
+                        <div className="hidden md:inline-flex items-center gap-3 text-sm font-bold uppercase tracking-widest text-black group-hover:text-[#d41132] transition-colors duration-300">
+                            <span className="relative">
+                                Shop Now
+                                {/* Animated underline */}
+                                <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-[#d41132] transition-all duration-300 group-hover:w-full" />
+                            </span>
+                            {/* Arrow */}
+                            <svg className="w-5 h-5 transition-all duration-300 group-hover:translate-x-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg>
                         </div>
                     </div>
                 </div>
@@ -181,7 +182,7 @@ export default function MasonryGrid({ categories }: MasonryGridProps) {
                 </header>
 
                 {/* CATEGORY BLOCKS - Alternating Layout */}
-                <div className="max-w-7xl mx-auto space-y-8 md:space-y-20">
+                <div className="max-w-7xl mx-auto space-y-6 md:space-y-20">
                     {filteredCategories.map((category, index) => (
                         <div
                             key={category.id}

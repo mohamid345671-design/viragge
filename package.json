@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "pages:build": "npx @cloudflare/next-on-pages"
+    "pages:build": "next build"
   },
   "dependencies": {
     "embla-carousel-react": "^8.6.0",

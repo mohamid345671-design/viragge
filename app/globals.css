@@ -325,19 +325,30 @@ input.bg-white\/5:-webkit-autofill:focus {
   border-color: rgba(255, 255, 255, 0.2) !important;
 }
 
-/* 4. Placeholder text visibility on iOS */
-input::placeholder,
-textarea::placeholder {
-  color: rgba(107, 114, 128, 0.6) !important;
-  opacity: 1 !important;
-  /* iOS reduces placeholder opacity by default */
-}
-
 /* Dark mode placeholders */
 input.bg-white\/5::placeholder {
   color: rgba(255, 255, 255, 0.4) !important;
   opacity: 1 !important;
 }
+
+/* White background inputs (Newsletter light mode fix) - CRITICAL FOR iOS */
+input.bg-white,
+input[type="email"].bg-white {
+  -webkit-text-fill-color: #000000 !important;
+  color: #000000 !important;
+  background-color: #ffffff !important;
+}
+
+input.bg-white:-webkit-autofill,
+input.bg-white:-webkit-autofill:hover,
+input.bg-white:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px #ffffff inset !important;
+  box-shadow: 0 0 0 1000px #ffffff inset !important;
+  -webkit-text-fill-color: #000000 !important;
+  color: #000000 !important;
+  background-color: #ffffff !important;
+}
+
 
 /* 5. Select dropdown arrow fix for iOS */
 select {
@@ -393,3 +404,27 @@ select:focus {
    - Use !important to override Safari's aggressive specificity
    - Handle both light and dark mode inputs separately
 */
+
+/* ========================================================================
+   NEWSLETTER INPUT FIX - MAXIMUM SPECIFICITY
+   Applied last for highest CSS priority
+   ======================================================================== */
+section input[type="email"].bg-white,
+section input.bg-white,
+.bg-black input[type="email"].bg-white,
+input[type="email"].bg-white.w-full {
+  -webkit-text-fill-color: #000000 !important;
+  color: #000000 !important;
+  background-color: #ffffff !important;
+  -webkit-appearance: none !important;
+  appearance: none !important;
+}
+
+section input[type="email"].bg-white:-webkit-autofill,
+section input.bg-white:-webkit-autofill,
+.bg-black input[type="email"].bg-white:-webkit-autofill,
+input[type="email"].bg-white.w-full:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px #ffffff inset !important;
+  -webkit-text-fill-color: #000000 !important;
+  color: #000000 !important;
+}

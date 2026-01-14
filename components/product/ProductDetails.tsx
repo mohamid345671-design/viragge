@@ -4,20 +4,44 @@ import { useState } from 'react';
 
 interface ProductDetailsProps {
     description?: string;
+    shortDescription?: string;
 }
 
-export default function ProductDetails({ description }: ProductDetailsProps) {
+export default function ProductDetails({ description, shortDescription }: ProductDetailsProps) {
     const [openSection, setOpenSection] = useState<string | null>('details');
 
     const toggle = (section: string) => {
         setOpenSection(openSection === section ? null : section);
     };
 
+    // Parse shortDescription into bullet points
+    const parseFeatures = (text?: string): string[] => {
+        if (!text) return [];
+
+        // Remove HTML tags and split by common delimiters
+        const stripped = text.replace(/<[^>]*>/g, '');
+        const lines = stripped
+            .split(/[•\n\r]/)
+            .map(line => line.trim())
+            .filter(line => line.length > 0);
+
+        return lines;
+    };
+
+    const features = parseFeatures(shortDescription);
+    const hasFeatures = features.length > 0;
+
     const sections = [
         {
             id: 'details',
             title: 'Product Details',
-            content: (
+            content: hasFeatures ? (
+                <ul className="list-disc pl-5 space-y-2 text-sm text-[#6b7280] leading-relaxed">
+                    {features.map((feature, idx) => (
+                        <li key={idx}>{feature}</li>
+                    ))}
+                </ul>
+            ) : (
                 <ul className="list-disc pl-5 space-y-2 text-sm text-[#6b7280] leading-relaxed">
                     <li>100% High-Density Nylon</li>
                     <li>Modular MOLLE System</li>

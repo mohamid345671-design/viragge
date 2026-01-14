@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import Image from 'next/image';
 import useEmblaCarousel from 'embla-carousel-react';
 
@@ -10,7 +10,14 @@ interface ProductGalleryProps {
 
 export default function ProductGallery({ images }: ProductGalleryProps) {
     const [selectedImage, setSelectedImage] = useState(0);
-    const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false, align: 'center' });
+    const [emblaRef, emblaApi] = useEmblaCarousel({
+        loop: false,
+        align: 'center',
+        dragFree: false,
+        skipSnaps: false,
+        duration: 20, // Faster animation
+        containScroll: 'trimSnaps'
+    });
 
     const onSelect = useCallback(() => {
         if (!emblaApi) return;
@@ -18,13 +25,14 @@ export default function ProductGallery({ images }: ProductGalleryProps) {
     }, [emblaApi]);
 
     // Listen to embla scroll events
-    useState(() => {
+    useEffect(() => {
         if (!emblaApi) return;
         emblaApi.on('select', onSelect);
+        onSelect(); // Set initial state
         return () => {
             emblaApi.off('select', onSelect);
         };
-    });
+    }, [emblaApi, onSelect]);
 
     return (
         <div className="flex flex-col md:flex-row-reverse gap-3">
@@ -92,8 +100,8 @@ export default function ProductGallery({ images }: ProductGalleryProps) {
 
             {/* MOBILE: Swipe Carousel */}
             <div className="md:hidden">
-                <div className="overflow-hidden rounded-lg" ref={emblaRef}>
-                    <div className="flex touch-pan-y">
+                <div className="overflow-hidden rounded-lg" ref={emblaRef} style={{ willChange: 'transform' }}>
+                    <div className="flex touch-pan-y" style={{ backfaceVisibility: 'hidden', transform: 'translateZ(0)' }}>
                         {images.map((img, idx) => (
                             <div key={idx} className="flex-[0_0_100%] min-w-0">
                                 <div className="relative aspect-[3/4] bg-white border border-[#e5e7eb] mx-1">
@@ -122,8 +130,8 @@ export default function ProductGallery({ images }: ProductGalleryProps) {
                                     emblaApi?.scrollTo(idx);
                                 }}
                                 className={`h-2 rounded-full transition-all duration-500 ease-out ${selectedImage === idx
-                                        ? 'w-8 bg-[#0f0f0f] scale-110 shadow-md'
-                                        : 'w-2 bg-[#d1d5db] hover:bg-[#6b7280] hover:scale-125 opacity-60 hover:opacity-100'
+                                    ? 'w-8 bg-[#0f0f0f] scale-110 shadow-md'
+                                    : 'w-2 bg-[#d1d5db] hover:bg-[#6b7280] hover:scale-125 opacity-60 hover:opacity-100'
                                     }`}
                                 aria-label={`Go to image ${idx + 1}`}
                             />

@@ -20,6 +20,7 @@ interface Product {
     };
     productFields: {
         price: number | null;
+        isNew?: boolean;
         hoverImage?: {
             node: {
                 sourceUrl: string;
@@ -42,6 +43,15 @@ interface ProductRow {
 export default function FeaturedProducts() {
     const [rows, setRows] = useState<ProductRow[]>([]);
     const [loading, setLoading] = useState(true);
+    const [isMobile, setIsMobile] = useState(false);
+
+    // Detect mobile
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 1024);
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
 
     useEffect(() => {
         async function fetchProducts() {
@@ -50,35 +60,53 @@ export default function FeaturedProducts() {
                 const data: any = await graphqlClient.request(GET_PRODUCTS, { first: 50 });
                 let allProducts = data.products.nodes;
 
-                // Filter products by category
-                const hoodies = allProducts.filter((p: Product) =>
-                    p.productCategories.nodes.some(cat => cat.name.toLowerCase() === 'hoodies')
-                ).slice(0, 2);
+                if (isMobile) {
+                    // MOBILE: Fetch exactly 6 products (2 hoodies, 2 tees, 2 sweatpants)
+                    const hoodies = allProducts.filter((p: Product) =>
+                        p.productCategories.nodes.some(cat => cat.name.toLowerCase() === 'hoodies')
+                    ).slice(0, 2);
 
-                const jackets = allProducts.filter((p: Product) =>
-                    p.productCategories.nodes.some(cat => cat.name.toLowerCase() === 'jackets')
-                ).slice(0, 2);
+                    const tshirts = allProducts.filter((p: Product) =>
+                        p.productCategories.nodes.some(cat => cat.name.toLowerCase().includes('shirt') || cat.name.toLowerCase().includes('tee'))
+                    ).slice(0, 2);
 
-                const tshirts = allProducts.filter((p: Product) =>
-                    p.productCategories.nodes.some(cat => cat.name.toLowerCase().includes('shirt') || cat.name.toLowerCase().includes('tee'))
-                ).slice(0, 4);
+                    const sweatpants = allProducts.filter((p: Product) =>
+                        p.productCategories.nodes.some(cat => cat.name.toLowerCase() === 'sweatpants')
+                    ).slice(0, 2);
 
-                const sweatpants = allProducts.filter((p: Product) =>
-                    p.productCategories.nodes.some(cat => cat.name.toLowerCase() === 'sweatpants')
-                ).slice(0, 2);
+                    // Mix them for balanced display
+                    const mobileProducts = [...hoodies, ...tshirts, ...sweatpants];
+                    setRows([{ title: '', products: mobileProducts }]);
+                } else {
+                    // DESKTOP: Original logic
+                    const hoodies = allProducts.filter((p: Product) =>
+                        p.productCategories.nodes.some(cat => cat.name.toLowerCase() === 'hoodies')
+                    ).slice(0, 2);
 
-                const denim = allProducts.filter((p: Product) =>
-                    p.productCategories.nodes.some(cat => cat.name.toLowerCase().includes('denim') || cat.name.toLowerCase().includes('jean'))
-                ).slice(0, 2);
+                    const jackets = allProducts.filter((p: Product) =>
+                        p.productCategories.nodes.some(cat => cat.name.toLowerCase() === 'jackets')
+                    ).slice(0, 2);
 
-                // Create rows
-                const productRows: ProductRow[] = [
-                    { title: 'Latest Hoodies & Jackets', products: [...hoodies, ...jackets] },
-                    { title: 'Essential Tees', products: tshirts },
-                    { title: 'Bottoms Collection', products: [...sweatpants, ...denim] }
-                ];
+                    const tshirts = allProducts.filter((p: Product) =>
+                        p.productCategories.nodes.some(cat => cat.name.toLowerCase().includes('shirt') || cat.name.toLowerCase().includes('tee'))
+                    ).slice(0, 4);
 
-                setRows(productRows.filter(row => row.products.length > 0));
+                    const sweatpants = allProducts.filter((p: Product) =>
+                        p.productCategories.nodes.some(cat => cat.name.toLowerCase() === 'sweatpants')
+                    ).slice(0, 2);
+
+                    const denim = allProducts.filter((p: Product) =>
+                        p.productCategories.nodes.some(cat => cat.name.toLowerCase().includes('denim') || cat.name.toLowerCase().includes('jean'))
+                    ).slice(0, 2);
+
+                    const productRows: ProductRow[] = [
+                        { title: 'Latest Hoodies & Jackets', products: [...hoodies, ...jackets] },
+                        { title: 'Essential Tees', products: tshirts },
+                        { title: 'Bottoms Collection', products: [...sweatpants, ...denim] }
+                    ];
+
+                    setRows(productRows.filter(row => row.products.length > 0));
+                }
             } catch (error) {
                 console.error('Error fetching products', error);
                 setRows([]);
@@ -87,7 +115,7 @@ export default function FeaturedProducts() {
             }
         }
         fetchProducts();
-    }, []);
+    }, [isMobile]);
 
     const SkeletonCard = () => (
         <div className="animate-pulse">
@@ -100,8 +128,8 @@ export default function FeaturedProducts() {
     );
 
     return (
-        <section className="bg-white text-black py-24 md:py-32 border-b border-gray-100">
-            <div className="container mx-auto px-6">
+        <section className="bg-white text-black py-16 md:py-24 border-b border-gray-100">
+            <div className="container mx-auto px-3 md:px-6">
 
                 {/* SECTION HEADER */}
                 <div className="text-center mb-12 md:mb-16">
@@ -119,7 +147,7 @@ export default function FeaturedProducts() {
                         {[1, 2, 3].map((row) => (
                             <div key={row}>
                                 <div className="h-6 bg-gray-200 w-48 mb-6 mx-auto"></div>
-                                <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+                                <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-3 gap-y-6 md:gap-x-6 md:gap-y-8">
                                     {[...Array(4)].map((_, i) => (
                                         <SkeletonCard key={i} />
                                     ))}
@@ -130,7 +158,7 @@ export default function FeaturedProducts() {
                 ) : (
                     <>
                         {/* UNIFIED GRID - All Products Together */}
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 max-w-7xl mx-auto">
+                        <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-3 gap-y-8 md:gap-x-6 md:gap-y-8 max-w-7xl mx-auto">
                             {rows.flatMap(row => row.products).map((product) => {
                                 const customPrice = product.productFields?.price;
                                 const wooPrice = product.price ? parseFloat(product.price.replace(/[^0-9.]/g, '')) : 0;
@@ -144,42 +172,47 @@ export default function FeaturedProducts() {
                                 const hoverImage = hoverImageUrl || gallery1 || mainImage;
 
                                 return (
-                                    <Link
-                                        key={product.id}
-                                        href={`/product/${product.slug}`}
-                                        className="group border border-gray-200 p-4 hover:border-gray-400 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1"
-                                    >
-                                        {/* IMAGE */}
-                                        <div className="relative aspect-[3/4] w-full bg-white overflow-hidden mb-4">
-                                            {/* Main Image */}
-                                            <Image
-                                                src={mainImage}
-                                                alt={product.name}
-                                                fill
-                                                className={`object-contain transition-opacity duration-500 ${hoverImageUrl ? 'group-hover:opacity-0' : ''}`}
-                                            />
+                                    <div key={product.id} className="group transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+                                        <Link href={`/product/${product.slug}`} className="block h-full">
+                                            {/* IMAGE */}
+                                            <div className="relative aspect-[3/4] w-full bg-white overflow-hidden">
+                                                {/* Only show badge if New */}
+                                                {product.productFields?.isNew && (
+                                                    <div className="absolute top-2 left-2 z-10 bg-black text-white text-[9px] font-bold px-2.5 py-1 uppercase tracking-wide">
+                                                        New
+                                                    </div>
+                                                )}
 
-                                            {/* Hover Image */}
-                                            {hoverImageUrl && (
+                                                {/* Main Image */}
                                                 <Image
-                                                    src={hoverImage}
-                                                    alt={product.name + ' Hover'}
+                                                    src={mainImage}
+                                                    alt={product.name}
                                                     fill
-                                                    className="object-contain absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                                                    className={`object-contain p-1 md:p-4 transition-all duration-500 ${hoverImageUrl ? 'group-hover:opacity-0 group-hover:scale-105' : 'group-hover:scale-105'}`}
                                                 />
-                                            )}
-                                        </div>
 
-                                        {/* INFO */}
-                                        <div className="space-y-1">
-                                            <h3 className="font-bold text-sm md:text-base uppercase tracking-tight group-hover:text-gray-600 transition-colors line-clamp-2">
-                                                {product.name}
-                                            </h3>
-                                            <p className="font-black text-base md:text-lg">
-                                                {Math.round(displayPrice)} DH
-                                            </p>
-                                        </div>
-                                    </Link>
+                                                {/* Hover Image */}
+                                                {hoverImageUrl && (
+                                                    <Image
+                                                        src={hoverImage}
+                                                        alt={product.name + ' Hover'}
+                                                        fill
+                                                        className="object-contain p-1 md:p-4 absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-500 group-hover:scale-105"
+                                                    />
+                                                )}
+                                            </div>
+
+                                            {/* INFO - Stacked Layout */}
+                                            <div className="p-2 md:p-4 space-y-1 md:space-y-2">
+                                                <h3 className="font-bold text-[11px] md:text-sm uppercase tracking-tight group-hover:text-[#d41132] transition-colors line-clamp-1 leading-tight">
+                                                    {product.name}
+                                                </h3>
+                                                <p className="font-black text-base md:text-base">
+                                                    {Math.round(displayPrice)} DH
+                                                </p>
+                                            </div>
+                                        </Link>
+                                    </div>
                                 );
                             })}
                         </div>
@@ -188,7 +221,7 @@ export default function FeaturedProducts() {
 
                 {/* CTA BUTTON */}
                 {!loading && rows.length > 0 && (
-                    <div className="text-center mt-16">
+                    <div className="text-center mt-12 lg:mt-16 lg:hidden">
                         <Link
                             href="/shop"
                             className="inline-flex items-center gap-3 px-8 py-4 bg-black text-white text-sm font-bold uppercase tracking-widest hover:bg-gray-800 transition-colors"

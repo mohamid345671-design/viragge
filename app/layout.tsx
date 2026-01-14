@@ -3,6 +3,7 @@ import { Oswald, Inter } from 'next/font/google';
 import './globals.css';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import FloatingSocial from '@/components/FloatingSocial';
 
 const oswald = Oswald({
   subsets: ['latin'],
@@ -46,6 +47,7 @@ export default function RootLayout({
     <html lang="en" className={`${oswald.variable} ${inter.variable}`}>
       <body className="font-sans antialiased text-white bg-black min-h-screen flex flex-col">
         <Navbar />
+        <FloatingSocial />
         <main className="flex-grow">
           {children}
         </main>

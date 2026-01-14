@@ -8,19 +8,43 @@ interface ProductOptionsProps {
     selectedSize: string;
     onColorSelect?: (color: string) => void;
     selectedColor?: string;
+    availableColors?: string; // NEW: from ACF
 }
 
-export default function ProductOptions({ sizes, onSizeSelect, selectedSize, onColorSelect, selectedColor = 'Black' }: ProductOptionsProps) {
+export default function ProductOptions({ sizes, onSizeSelect, selectedSize, onColorSelect, selectedColor = 'Black', availableColors }: ProductOptionsProps) {
     const [quantity, setQuantity] = useState(1);
     const [showSizeGuide, setShowSizeGuide] = useState(false);
     const [showValidationError, setShowValidationError] = useState(false);
 
-    // Available colors
-    const colors = [
-        { name: 'Black', value: '#000000', border: '#333333' },
-        { name: 'White', value: '#FFFFFF', border: '#E5E7EB' },
-        { name: 'Gray', value: '#6B7280', border: '#4B5563' },
-    ];
+    // All available colors with their hex values
+    const allColors = {
+        'Black': { value: '#000000', border: '#333333' },
+        'White': { value: '#FFFFFF', border: '#E5E7EB' },
+        'Gray': { value: '#6B7280', border: '#4B5563' },
+        'Navy': { value: '#1E3A8A', border: '#1E40AF' },
+        'Beige': { value: '#D4A574', border: '#C4956C' },
+        'Olive': { value: '#6B7547', border: '#5D6641' },
+        'Brown': { value: '#92400E', border: '#78350F' },
+        'Khaki': { value: '#A8A58C', border: '#999680' },
+    };
+
+    // Parse colors from ACF - handle both array and string formats
+    let selectedColorNames: string[];
+    if (!availableColors) {
+        selectedColorNames = ['Black', 'White', 'Gray'];
+    } else if (Array.isArray(availableColors)) {
+        selectedColorNames = availableColors; // GraphQL returns array directly
+    } else {
+        selectedColorNames = availableColors.split(',').map(c => c.trim()); // String format
+    }
+
+    // Filter to only selected colors
+    const colors = selectedColorNames
+        .filter(name => allColors[name as keyof typeof allColors])
+        .map(name => ({
+            name,
+            ...allColors[name as keyof typeof allColors]
+        }));
 
     // Normalize sizes to array
     const sizeArray = Array.isArray(sizes) ? sizes : (sizes ? [sizes] : []);
@@ -53,16 +77,16 @@ export default function ProductOptions({ sizes, onSizeSelect, selectedSize, onCo
                                 key={color.name}
                                 onClick={() => onColorSelect?.(color.name)}
                                 className={`relative group flex items-center justify-center transition-all duration-300 ${selectedColor === color.name
-                                        ? 'scale-105'
-                                        : 'hover:scale-105'
+                                    ? 'scale-105'
+                                    : 'hover:scale-105'
                                     }`}
                                 title={color.name}
                                 aria-label={`Select ${color.name} color`}
                             >
                                 <div
                                     className={`w-14 h-14 rounded-full transition-all duration-300 ${selectedColor === color.name
-                                            ? 'ring-[3px] ring-black shadow-lg'
-                                            : 'ring-1 ring-gray-300 hover:ring-2 hover:ring-gray-400 shadow-sm'
+                                        ? 'ring-[3px] ring-black shadow-lg'
+                                        : 'ring-1 ring-gray-300 hover:ring-2 hover:ring-gray-400 shadow-sm'
                                         }`}
                                     style={{
                                         backgroundColor: color.value,
@@ -114,10 +138,10 @@ export default function ProductOptions({ sizes, onSizeSelect, selectedSize, onCo
                                 key={size}
                                 onClick={() => handleSizeClick(size)}
                                 className={`relative py-4 px-4 text-sm font-bold uppercase transition-all duration-200 border-2 ${selectedSize === size
-                                        ? 'bg-black text-white border-black'
-                                        : showValidationError
-                                            ? 'bg-white text-gray-700 border-red-500'
-                                            : 'bg-white text-gray-700 border-gray-300 hover:border-black'
+                                    ? 'bg-black text-white border-black'
+                                    : showValidationError
+                                        ? 'bg-white text-gray-700 border-red-500'
+                                        : 'bg-white text-gray-700 border-gray-300 hover:border-black'
                                     }`}
                                 aria-label={`Select size ${size}`}
                             >

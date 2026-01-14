@@ -56,14 +56,14 @@ const ProductCard = memo(function ProductCard({ product, priority = false }: Pro
 
     return (
         <Link href={`/product/${product.slug}`} className="group block h-full">
-            <div className="bg-white border border-gray-200 hover:border-gray-400 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 h-full flex flex-col">
+            <div className="bg-white transition-all duration-300 hover:shadow-xl hover:-translate-y-1 h-full flex flex-col">
 
                 {/* DESKTOP: Hover Image Effect */}
                 <div className="relative aspect-[3/4] bg-white overflow-hidden hidden md:block">
-                    {/* Badge */}
+                    {/* Only show badge if New */}
                     {isNew && (
-                        <div className="absolute top-3 left-3 z-20 bg-[#d41132] text-white text-[10px] font-bold px-3 py-1.5 uppercase tracking-wider shadow-md">
-                            New Drop
+                        <div className="absolute top-3 left-3 z-20 bg-black text-white text-[9px] font-bold px-2.5 py-1 uppercase tracking-wide">
+                            New
                         </div>
                     )}
 
@@ -95,9 +95,9 @@ const ProductCard = memo(function ProductCard({ product, priority = false }: Pro
 
                 {/* MOBILE: Swipe Carousel */}
                 <div className="relative md:hidden">
-                    {/* Badge */}
+                    {/* Only show badge if New */}
                     {isNew && (
-                        <div className="absolute top-3 left-3 z-20 bg-[#d41132] text-white text-[10px] font-bold px-3 py-1.5 uppercase tracking-wider shadow-md">
+                        <div className="absolute top-2 left-2 z-20 bg-black text-white text-[9px] font-bold px-2.5 py-1 uppercase tracking-wide">
                             New
                         </div>
                     )}
@@ -113,7 +113,7 @@ const ProductCard = memo(function ProductCard({ product, priority = false }: Pro
                                                     src={img}
                                                     alt={`${product.name} - View ${idx + 1}`}
                                                     fill
-                                                    className="object-contain p-4"
+                                                    className="object-contain p-1"
                                                     priority={priority && idx === 0}
                                                     loading={idx === 0 ? (priority ? undefined : 'lazy') : 'lazy'}
                                                     sizes="50vw"
@@ -134,9 +134,9 @@ const ProductCard = memo(function ProductCard({ product, priority = false }: Pro
                                             e.preventDefault();
                                             emblaApi?.scrollTo(idx);
                                         }}
-                                        className={`h-1.5 rounded-full transition-all duration-300 ${selectedIndex === idx
-                                            ? 'w-6 bg-black'
-                                            : 'w-1.5 bg-gray-300'
+                                        className={`h-1 rounded-full transition-all duration-300 ${selectedIndex === idx
+                                            ? 'w-6 bg-white shadow-lg'
+                                            : 'w-1 bg-white/60'
                                             }`}
                                         aria-label={`Go to image ${idx + 1}`}
                                     />
@@ -149,7 +149,7 @@ const ProductCard = memo(function ProductCard({ product, priority = false }: Pro
                                 src={mainImage}
                                 alt={product.name}
                                 fill
-                                className="object-contain p-4"
+                                className="object-contain p-1"
                                 priority={priority}
                                 sizes="50vw"
                                 quality={75}
@@ -158,17 +158,12 @@ const ProductCard = memo(function ProductCard({ product, priority = false }: Pro
                     )}
                 </div>
 
-                {/* Content */}
-                <div className="flex flex-col flex-grow p-4 space-y-2">
-                    <div className="flex justify-between items-start gap-2">
-                        <h3 className="font-bold text-sm uppercase tracking-tight text-black group-hover:text-[#d41132] transition-colors line-clamp-2 flex-1">
-                            {product.name}
-                        </h3>
-                        <p className="font-black text-sm shrink-0">{displayPrice}</p>
-                    </div>
-                    <p className="text-gray-500 text-xs uppercase tracking-wider">
-                        {categoryName}
-                    </p>
+                {/* Content - Stacked Layout */}
+                <div className="flex flex-col p-2 md:p-4 space-y-1 md:space-y-2">
+                    <h3 className="font-bold text-[11px] md:text-sm uppercase tracking-tight text-black group-hover:text-[#d41132] transition-colors line-clamp-1 leading-tight">
+                        {product.name}
+                    </h3>
+                    <p className="font-black text-base md:text-base">{displayPrice}</p>
                 </div>
             </div>
         </Link>

@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
+import useEmblaCarousel from 'embla-carousel-react';
 
 // ============================================
 // INTERFACES & TYPES
@@ -68,9 +69,9 @@ const ReviewCard = ({ review, index, isVisible }: ReviewCardProps) => {
 
     return (
         <article
-            className={`group relative bg-gradient-to-br from-[#111] to-[#0a0a0a] border border-gray-800 p-6 md:p-8 rounded-lg
+            className={`group relative bg-gradient-to-br from-[#111] to-[#0a0a0a] border border-gray-800 p-5 md:p-8 rounded-lg
                 transition-all duration-500 hover:border-[#d41132]/50 hover:shadow-2xl hover:shadow-[#d41132]/10 
-                hover:scale-[1.02] hover:-translate-y-1 ${isVisible
+                lg:hover:scale-[1.02] lg:hover:-translate-y-1 ${isVisible
                     ? 'opacity-100 translate-y-0'
                     : 'opacity-0 translate-y-12'
                 }`}
@@ -180,6 +181,23 @@ export default function SocialProof({
 }: SocialProofProps) {
     const [isVisible, setIsVisible] = useState(false);
     const sectionRef = useRef<HTMLElement>(null);
+    const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: 'center' });
+    const [selectedIndex, setSelectedIndex] = useState(0);
+
+    // Track carousel scroll
+    const onSelect = useCallback(() => {
+        if (!emblaApi) return;
+        setSelectedIndex(emblaApi.selectedScrollSnap());
+    }, [emblaApi]);
+
+    useEffect(() => {
+        if (!emblaApi) return;
+        emblaApi.on('select', onSelect);
+        onSelect();
+        return () => {
+            emblaApi.off('select', onSelect);
+        };
+    }, [emblaApi, onSelect]);
 
     // IntersectionObserver for scroll animations
     useEffect(() => {
@@ -224,8 +242,34 @@ export default function SocialProof({
                     </h2>
                 </header>
 
-                {/* Reviews Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+                {/* MOBILE: Carousel */}
+                <div className="lg:hidden mb-8">
+                    <div className="overflow-hidden" ref={emblaRef}>
+                        <div className="flex touch-pan-y">
+                            {reviews.map((review, index) => (
+                                <div key={review.id} className="flex-[0_0_100%] min-w-0 px-3">
+                                    <ReviewCard review={review} index={0} isVisible={isVisible} />
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Pagination Dots */}
+                    <div className="flex justify-center items-center gap-2 mt-6">
+                        {reviews.map((_, idx) => (
+                            <button
+                                key={idx}
+                                onClick={() => emblaApi?.scrollTo(idx)}
+                                className={`h-2 rounded-full transition-all duration-300 ${selectedIndex === idx ? 'w-8 bg-[#d41132]' : 'w-2 bg-gray-600'
+                                    }`}
+                                aria-label={`Go to review ${idx + 1}`}
+                            />
+                        ))}
+                    </div>
+                </div>
+
+                {/* DESKTOP: Grid */}
+                <div className="hidden lg:grid lg:grid-cols-4 gap-6 md:gap-8">
                     {reviews.map((review, index) => (
                         <ReviewCard
                             key={review.id}

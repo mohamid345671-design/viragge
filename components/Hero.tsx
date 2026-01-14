@@ -29,7 +29,7 @@ export default function Hero() {
             {/* Tech Badge */}
             <div className="mb-6 opacity-0 animate-slideUp flex justify-center">
               <span className="backdrop-blur-md bg-white/10 border border-white/20 text-[10px] font-bold uppercase tracking-[0.3em] text-white px-4 py-1.5 rounded-full">
-                Season 04 / 2024
+                Season 01 / 2026
               </span>
             </div>
 
@@ -133,7 +133,7 @@ export default function Hero() {
               </div>
               <div>
                 <h4 className="text-2xl font-bold text-white">03</h4>
-                <p className="text-[10px] text-gray-500 uppercase tracking-widest mt-1">Global Shipping</p>
+                <p className="text-[10px] text-gray-500 uppercase tracking-widest mt-1">Shipping over morocco</p>
               </div>
             </div>
           </div>
@@ -153,7 +153,7 @@ export default function Hero() {
           {/* Decorative Elements */}
           <div className="absolute bottom-10 right-10 z-20 flex flex-col items-end gap-1">
             <div className="w-20 h-[1px] bg-white/50"></div>
-            <p className="text-white/60 text-[10px] uppercase tracking-[0.3em] font-mono">Nostra Collection / V2</p>
+            <p className="text-white/60 text-[10px] uppercase tracking-[0.3em] font-mono">VIRAGGE Collection / V2</p>
           </div>
         </div>
 

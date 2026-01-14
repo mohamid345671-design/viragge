@@ -143,14 +143,13 @@ export default function OrderForm({ disabled, productName, productId }: OrderFor
                         onChange={handleChange}
                         onFocus={() => setFocusedField('fullName')}
                         onBlur={() => setFocusedField(null)}
-                        className="peer w-full bg-white border border-[#e5e7eb] rounded-lg py-3.5 px-4 text-[#0f0f0f] placeholder-transparent focus:border-[#0f0f0f] focus:outline-none focus:ring-2 focus:ring-[#0f0f0f]/20 transition-all"
-                        placeholder="Full Name"
+                        className="peer w-full bg-white border border-[#e5e7eb] rounded-lg py-3.5 px-4 text-[#0f0f0f] focus:border-[#0f0f0f] focus:outline-none focus:ring-2 focus:ring-[#0f0f0f]/20 transition-all"
                     />
                     <label className={`absolute left-4 transition-all duration-200 pointer-events-none ${focusedField === 'fullName' || formData.fullName
                         ? '-top-2.5 text-xs font-bold bg-white px-1 text-[#0f0f0f]'
                         : 'top-3.5 text-sm text-[#6b7280]'
                         }`}>
-                        Full Name *
+                        Name
                     </label>
                 </div>
 
@@ -164,14 +163,13 @@ export default function OrderForm({ disabled, productName, productId }: OrderFor
                         onChange={handleChange}
                         onFocus={() => setFocusedField('phone')}
                         onBlur={() => setFocusedField(null)}
-                        placeholder="06XXXXXXXX"
-                        className="peer w-full bg-white border border-[#e5e7eb] rounded-lg py-3.5 px-4 text-[#0f0f0f] placeholder-transparent focus:border-[#0f0f0f] focus:outline-none focus:ring-2 focus:ring-[#0f0f0f]/20 transition-all"
+                        className="peer w-full bg-white border border-[#e5e7eb] rounded-lg py-3.5 px-4 text-[#0f0f0f] focus:border-[#0f0f0f] focus:outline-none focus:ring-2 focus:ring-[#0f0f0f]/20 transition-all"
                     />
                     <label className={`absolute left-4 transition-all duration-200 pointer-events-none ${focusedField === 'phone' || formData.phone
                         ? '-top-2.5 text-xs font-bold bg-white px-1 text-[#0f0f0f]'
                         : 'top-3.5 text-sm text-[#6b7280]'
                         }`}>
-                        Phone Number *
+                        Phone
                     </label>
                     <p className="text-xs text-gray-500 mt-1.5">
                         📞 We will call you to confirm your order
@@ -207,14 +205,13 @@ export default function OrderForm({ disabled, productName, productId }: OrderFor
                         onFocus={() => setFocusedField('address')}
                         onBlur={() => setFocusedField(null)}
                         rows={3}
-                        placeholder="Street, building, neighborhood"
-                        className="peer w-full bg-white border border-[#e5e7eb] rounded-lg py-3.5 px-4 text-[#0f0f0f] placeholder-transparent focus:border-[#0f0f0f] focus:outline-none focus:ring-2 focus:ring-[#0f0f0f]/20 transition-all resize-none"
+                        className="peer w-full bg-white border border-[#e5e7eb] rounded-lg py-3.5 px-4 text-[#0f0f0f] focus:border-[#0f0f0f] focus:outline-none focus:ring-2 focus:ring-[#0f0f0f]/20 transition-all resize-none"
                     />
                     <label className={`absolute left-4 transition-all duration-200 pointer-events-none ${focusedField === 'address' || formData.address
                         ? '-top-2.5 text-xs font-bold bg-white px-1 text-[#0f0f0f]'
                         : 'top-3.5 text-sm text-[#6b7280]'
                         }`}>
-                        Address *
+                        Address
                     </label>
                 </div>
 

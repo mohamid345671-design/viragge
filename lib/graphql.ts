@@ -106,6 +106,7 @@ export const GET_PRODUCT_BY_SLUG = `
         slug
         price
         description
+        shortDescription
         image {
           sourceUrl
           altText
@@ -123,6 +124,7 @@ export const GET_PRODUCT_BY_SLUG = `
         }
         productFields {
           price
+          availableColors
           # isNew (field doesn't exist in schema)
           hoverImage {
             node {
@@ -163,6 +165,23 @@ export const CREATE_ORDER = `
       order {
         databaseId
         orderNumber
+      }
+    }
+  }
+`;
+
+export const GET_SITE_SETTINGS = `
+  query GetSiteSettings {
+    page(id: "site-settings", idType: URI) {
+      siteSettings {
+        contactPhone
+        contactEmail
+        contactWhatsapp
+        contactAddress
+        socialInstagram
+        socialTiktok
+        socialFacebook
+        socialYoutube
       }
     }
   }

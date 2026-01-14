@@ -11,7 +11,7 @@ export default function ContactPage() {
                         <section>
                             <h2 className="text-xl font-bold uppercase tracking-wide mb-2 text-[#d41132]">Support</h2>
                             <p className="text-gray-600 mb-1">Need help with an order?</p>
-                            <p className="text-2xl font-bold">support@strectify.com</p>
+                            <p className="text-2xl font-bold">support@viragge.com</p>
                         </section>
 
                         <section>
@@ -23,8 +23,8 @@ export default function ContactPage() {
                         <section>
                             <h2 className="text-xl font-bold uppercase tracking-wide mb-2 text-[#d41132]">HQ</h2>
                             <p className="text-lg font-medium">
-                                Casablanca, Morocco<br />
-                                Maarif District
+                               fes, Morocco<br />
+                               saheb el ouard
                             </p>
                         </section>
                     </div>

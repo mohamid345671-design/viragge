@@ -16,11 +16,6 @@ const Newsletter = dynamicImport(() => import('@/components/Newsletter'), {
   ssr: true,
 });
 
-const Footer = dynamicImport(() => import('@/components/Footer'), {
-  loading: () => <div className="h-96 bg-black" />,
-  ssr: true,
-});
-
 export const dynamic = 'force-dynamic';
 export default async function Home() {
   let categories = [];
@@ -50,9 +45,6 @@ export default async function Home() {
 
       {/* 6. Newsletter */}
       <Newsletter />
-
-      {/* 7. Footer */}
-      <Footer />
     </main>
   );
 }

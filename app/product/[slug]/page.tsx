@@ -16,6 +16,7 @@ interface Product {
     slug: string;
     price: string;
     description: string;
+    shortDescription?: string;
     image: {
         sourceUrl: string;
         altText: string;
@@ -202,6 +203,7 @@ export default function ProductPage({ params, searchParams }: PageProps) {
                                 onSizeSelect={setSelectedSize}
                                 selectedColor={selectedColor}
                                 onColorSelect={setSelectedColor}
+                                availableColors={product.productFields?.availableColors}
                             />
 
                             {/* Order Form with ref for scrolling */}
@@ -215,7 +217,10 @@ export default function ProductPage({ params, searchParams }: PageProps) {
                         </div>
 
                         <div className="pt-8 border-t border-[#e5e7eb]">
-                            <ProductDetails description={product.description} />
+                            <ProductDetails
+                                description={product.description}
+                                shortDescription={product.shortDescription}
+                            />
                         </div>
                     </div>
                 </div>

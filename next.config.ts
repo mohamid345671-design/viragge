@@ -3,12 +3,10 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   /* config options here */
 
-  // Enable static export for Cloudflare Pages
-  output: 'export',
-
-  // Disable features incompatible with static export
   images: {
-    unoptimized: true, // Required for static export
+    // Use Cloudinary loader for Cloudflare Pages
+    loader: 'custom',
+    loaderFile: './cloudinary-loader.js',
   },
 
   // Optimize production builds

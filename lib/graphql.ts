@@ -6,12 +6,7 @@ export const graphqlClient = new GraphQLClient(endpoint, {
   headers: {
     'Content-Type': 'application/json',
   },
-  // Disable caching - see WordPress changes immediately
-  fetch: (url, options) => fetch(url, {
-    ...options,
-    cache: 'no-store',
-    next: { revalidate: 0 }
-  }),
+  // Note: cache: 'no-store' is handled at the route level with edge runtime
 });
 
 // GraphQL Queries - Using node wrapper for ACF images

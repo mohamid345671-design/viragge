@@ -9,9 +9,6 @@ import OrderForm from '@/components/product/OrderForm';
 import ProductDetails from '@/components/product/ProductDetails';
 import { graphqlClient, GET_PRODUCT_BY_SLUG } from '@/lib/graphql';
 
-// Configure for Cloudflare Pages Edge Runtime
-export const runtime = 'edge';
-
 interface Product {
     id: string;
     databaseId: number;

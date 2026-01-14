@@ -9,9 +9,6 @@ import OrderForm from '@/components/product/OrderForm';
 import ProductDetails from '@/components/product/ProductDetails';
 import { graphqlClient, GET_PRODUCT_BY_SLUG } from '@/lib/graphql';
 
-// Required by Cloudflare adapter for dynamic routes
-export const runtime = 'edge';
-
 interface Product {
     id: string;
     databaseId: number;

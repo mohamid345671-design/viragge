@@ -16,9 +16,6 @@ const Newsletter = dynamicImport(() => import('@/components/Newsletter'), {
   ssr: true,
 });
 
-// Configure for Cloudflare Pages Edge Runtime
-export const runtime = 'edge';
-
 export default async function Home() {
   let categories = [];
   try {

@@ -372,7 +372,7 @@ export default function Navbar() {
                         <SearchBar />
                         <button
                             onClick={() => setIsSearchOpen(false)}
-                            className="mt-6 mx-auto block text-gray-400 hover:text-white text-sm transition-colors"
+                            className="mt-6 mx-auto hidden md:block text-gray-400 hover:text-white text-sm transition-colors"
                         >
                             Press ESC or click outside to close
                         </button>

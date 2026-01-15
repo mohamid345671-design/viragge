@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { graphqlClient, GET_PRODUCTS } from '@/lib/graphql';
+import ColorDots from './ColorDots';
 
 interface Product {
     id: string;
@@ -21,6 +22,7 @@ interface Product {
     productFields: {
         price: number | null;
         isNew?: boolean;
+        availableColors?: string | string[];
         hoverImage?: {
             node: {
                 sourceUrl: string;
@@ -159,7 +161,7 @@ export default function FeaturedProducts() {
                     <>
                         {/* UNIFIED GRID - All Products Together */}
                         <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-3 gap-y-8 md:gap-x-6 md:gap-y-8 max-w-7xl mx-auto">
-                            {rows.flatMap(row => row.products).map((product) => {
+                            {rows.flatMap(row => row.products).map((product, idx) => {
                                 const customPrice = product.productFields?.price;
                                 const wooPrice = product.price ? parseFloat(product.price.replace(/[^0-9.]/g, '')) : 0;
                                 const displayPrice = customPrice ?? wooPrice;
@@ -188,6 +190,8 @@ export default function FeaturedProducts() {
                                                     src={mainImage}
                                                     alt={product.name}
                                                     fill
+                                                    priority={idx < 4}
+                                                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                                                     className={`object-contain p-1 md:p-4 transition-all duration-500 ${hoverImageUrl ? 'group-hover:opacity-0 group-hover:scale-105' : 'group-hover:scale-105'}`}
                                                 />
 
@@ -197,6 +201,7 @@ export default function FeaturedProducts() {
                                                         src={hoverImage}
                                                         alt={product.name + ' Hover'}
                                                         fill
+                                                        sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                                                         className="object-contain p-1 md:p-4 absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-500 group-hover:scale-105"
                                                     />
                                                 )}
@@ -210,6 +215,13 @@ export default function FeaturedProducts() {
                                                 <p className="font-black text-base md:text-base">
                                                     {Math.round(displayPrice)} DH
                                                 </p>
+                                                <ColorDots colors={
+                                                    Array.isArray(product.productFields?.availableColors)
+                                                        ? product.productFields.availableColors
+                                                        : typeof product.productFields?.availableColors === 'string'
+                                                            ? product.productFields.availableColors.split(',').map(c => c.trim()).filter(Boolean)
+                                                            : []
+                                                } />
                                             </div>
                                         </Link>
                                     </div>

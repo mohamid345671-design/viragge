@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useCallback, useEffect, memo } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
+import ColorDots from '../ColorDots';
 
 interface ProductCardProps {
     product: any;
@@ -53,6 +54,14 @@ const ProductCard = memo(function ProductCard({ product, priority = false }: Pro
     const displayPrice = `${Math.round(rawPrice)} DH`;
     const isNew = product.productFields?.isNew ?? false;
     const categoryName = product.productCategories?.nodes?.[0]?.name || 'Uncategorized';
+
+    // Parse available colors (could be string or array)
+    const availableColors = product.productFields?.availableColors;
+    const colorArray = Array.isArray(availableColors)
+        ? availableColors
+        : typeof availableColors === 'string'
+            ? availableColors.split(',').map(c => c.trim()).filter(Boolean)
+            : [];
 
     return (
         <Link href={`/product/${product.slug}`} className="group block h-full">
@@ -164,6 +173,7 @@ const ProductCard = memo(function ProductCard({ product, priority = false }: Pro
                         {product.name}
                     </h3>
                     <p className="font-black text-base md:text-base">{displayPrice}</p>
+                    <ColorDots colors={colorArray} />
                 </div>
             </div>
         </Link>

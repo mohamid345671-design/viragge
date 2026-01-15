@@ -84,6 +84,7 @@ export const GET_PRODUCTS = `
               }
             }
             availableSizes
+            availableColors
           }
         }
       }

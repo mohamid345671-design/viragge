@@ -7,9 +7,12 @@ interface OrderFormProps {
     disabled: boolean;
     productName: string;
     productId: number;
+    productPrice: number;
+    selectedSize: string;
+    selectedColor: string;
 }
 
-export default function OrderForm({ disabled, productName, productId }: OrderFormProps) {
+export default function OrderForm({ disabled, productName, productId, productPrice, selectedSize, selectedColor }: OrderFormProps) {
     const [isSuccess, setIsSuccess] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
@@ -64,9 +67,9 @@ export default function OrderForm({ disabled, productName, productId }: OrderFor
             const cleanPhone = formData.phone.replace(/\s+/g, '');
             const generatedEmail = `${cleanPhone}@store-guest.com`;
 
-            // Prepare checkout input
+            // Prepare checkout input with explicit price and metadata
             const input = {
-                clientMutationId: Date.now().toString(),
+                clientMutationId: `order_${productId}_${Date.now()}`,
                 paymentMethod: 'cod',
                 isPaid: false,
                 billing: {
@@ -80,7 +83,19 @@ export default function OrderForm({ disabled, productName, productId }: OrderFor
                 lineItems: [
                     {
                         productId: productId,
-                        quantity: 1
+                        quantity: 1,
+                        subtotal: productPrice.toString(),
+                        total: productPrice.toString()
+                    }
+                ],
+                metaData: [
+                    {
+                        key: 'selected_size',
+                        value: selectedSize
+                    },
+                    {
+                        key: 'selected_color',
+                        value: selectedColor
                     }
                 ]
             };

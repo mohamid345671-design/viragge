@@ -16,6 +16,7 @@ export default function Hero() {
           alt="Hero Background"
           fill
           priority
+          sizes="100vw"
           className="object-cover"
         />
 
@@ -133,7 +134,7 @@ export default function Hero() {
               </div>
               <div>
                 <h4 className="text-2xl font-bold text-white">03</h4>
-                <p className="text-[10px] text-gray-500 uppercase tracking-widest mt-1">Shipping over morocco</p>
+                <p className="text-[10px] text-gray-500 uppercase tracking-widest mt-1">Shipping within morocco</p>
               </div>
             </div>
           </div>
@@ -147,6 +148,7 @@ export default function Hero() {
             alt="Streetwear Model"
             fill
             priority
+            sizes="50vw"
             className="object-cover object-top filter contrast-[1.1] brightness-[0.9]"
           />
 

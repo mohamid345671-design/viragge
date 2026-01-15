@@ -60,7 +60,7 @@ export default function SearchBar() {
     const [hasSearched, setHasSearched] = useState(false);
     const router = useRouter();
     const searchRef = useRef<HTMLDivElement>(null);
-    const debounceTimerRef = useRef<NodeJS.Timeout>();
+    const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
 
     // Debounced search function
     useEffect(() => {

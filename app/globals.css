@@ -181,6 +181,25 @@ h6 {
   animation-delay: 0.4s;
 }
 
+/* Loading Bar Animation */
+@keyframes loading-slide {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  50% {
+    transform: translateX(100%);
+  }
+
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-loading-slide {
+  animation: loading-slide 1.5s ease-in-out infinite;
+}
+
 /* Mobile Typography Enhancements */
 @media (max-width: 768px) {
   body {

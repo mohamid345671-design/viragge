@@ -179,7 +179,24 @@ export default function ProductPage({ params, searchParams }: PageProps) {
     return (
         <main className="min-h-screen bg-white text-[#0f0f0f] pt-24 md:pt-28 pb-32 md:pb-20">
             <div className="container mx-auto px-4 md:px-6 max-w-7xl">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
+                {/* Breadcrumb */}
+                <nav className="mb-6 md:mb-8">
+                    <ol className="flex items-center gap-2 text-xs md:text-sm text-gray-500">
+                        <li>
+                            <Link href="/" className="hover:text-black transition-colors">Home</Link>
+                        </li>
+                        <li>/</li>
+                        <li>
+                            <Link href="/shop" className="hover:text-black transition-colors">Shop</Link>
+                        </li>
+                        <li>/</li>
+                        <li className="text-black font-semibold truncate max-w-[150px] md:max-w-none">
+                            {product.name}
+                        </li>
+                    </ol>
+                </nav>
+
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 xl:gap-20">
                     {/* Left Column: Gallery (Sticky on Desktop) */}
                     <div className="relative">
                         <div className="lg:sticky lg:top-32">
@@ -196,7 +213,7 @@ export default function ProductPage({ params, searchParams }: PageProps) {
                             isNew={isNew}
                         />
 
-                        <div className="pt-8 border-t border-[#e5e7eb] space-y-8">
+                        <div className="pt-8 border-t border-gray-200 space-y-8">
                             <ProductOptions
                                 sizes={availableSizes}
                                 selectedSize={selectedSize}
@@ -212,11 +229,14 @@ export default function ProductPage({ params, searchParams }: PageProps) {
                                     disabled={!selectedSize}
                                     productName={product.name}
                                     productId={product.databaseId}
+                                    productPrice={displayPrice}
+                                    selectedSize={selectedSize}
+                                    selectedColor={selectedColor}
                                 />
                             </div>
                         </div>
 
-                        <div className="pt-8 border-t border-[#e5e7eb]">
+                        <div className="pt-8 border-t border-gray-200">
                             <ProductDetails
                                 description={product.description}
                                 shortDescription={product.shortDescription}
@@ -227,13 +247,13 @@ export default function ProductPage({ params, searchParams }: PageProps) {
             </div>
 
             {/* Sticky Mobile CTA Button */}
-            <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-white/95 backdrop-blur-md border-t border-gray-200 shadow-2xl p-4">
+            <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-white/95 backdrop-blur-lg border-t border-gray-200 shadow-2xl p-4">
                 <button
                     onClick={scrollToOrderForm}
                     disabled={!selectedSize}
-                    className={`w-full py-4 text-xs font-bold uppercase tracking-[0.2em] transition-all duration-300 ${!selectedSize
-                        ? 'bg-[#e5e7eb] text-[#6b7280] cursor-not-allowed'
-                        : 'bg-black text-white hover:bg-[#333]'
+                    className={`w-full py-4 text-xs font-bold uppercase tracking-[0.2em] transition-all duration-300 rounded-lg ${!selectedSize
+                        ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
+                        : 'bg-black text-white hover:bg-gray-800 shadow-lg hover:shadow-xl'
                         }`}
                 >
                     {!selectedSize ? 'Select Size First' : 'Buy Now - Cash on Delivery'}

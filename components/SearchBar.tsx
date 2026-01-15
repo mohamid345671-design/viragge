@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 export default function SearchBar() {
-    const [search Query, setSearchQuery] = useState('');
+    const [searchQuery, setSearchQuery] = useState('');
     const router = useRouter();
 
     const handleSearch = (e: React.FormEvent) => {

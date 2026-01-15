@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import SearchBar from './SearchBar';
 
 export default function Hero() {
   return (
@@ -44,14 +43,9 @@ export default function Hero() {
             </h1>
 
             {/* Subtitle */}
-            <p className="text-sm text-gray-300 mb-6 leading-relaxed opacity-0 animate-slideUp animate-delay-300 font-medium tracking-wide">
+            <p className="text-sm text-gray-300 mb-8 leading-relaxed opacity-0 animate-slideUp animate-delay-300 font-medium tracking-wide">
               Engineered for the streets. Built for power.
             </p>
-
-            {/* Search Bar */}
-            <div className="mb-6 opacity-0 animate-slideUp animate-delay-350">
-              <SearchBar />
-            </div>
 
             {/* CTA Buttons */}
             <div className="flex flex-col gap-3 opacity-0 animate-slideUp animate-delay-400 w-full">
@@ -101,14 +95,9 @@ export default function Hero() {
             </h1>
 
             {/* Subtitle */}
-            <p className="text-lg text-gray-400 mb-8 leading-relaxed opacity-0 animate-slideUp animate-delay-300 max-w-md font-light tracking-wide">
+            <p className="text-lg text-gray-400 mb-12 leading-relaxed opacity-0 animate-slideUp animate-delay-300 max-w-md font-light tracking-wide">
               Elevate your everyday uniform. Premium materials, oversized fits, and uncompromising aesthetics for the modern vanguard.
             </p>
-
-            {/* Search Bar */}
-            <div className="mb-10 opacity-0 animate-slideUp animate-delay-350 max-w-md">
-              <SearchBar />
-            </div>
 
             {/* CTA Buttons */}
             <div className="flex items-center gap-6 opacity-0 animate-slideUp animate-delay-400">

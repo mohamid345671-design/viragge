@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { graphqlClient, GET_CATEGORIES } from '@/lib/graphql';
+import SearchBar from './SearchBar';
 
 interface Category {
     id: string;
@@ -18,6 +19,7 @@ export default function Navbar() {
     const [isCollectionsOpen, setIsCollectionsOpen] = useState(false);
     const [isContactOpen, setIsContactOpen] = useState(false);
     const [isSocialOpen, setIsSocialOpen] = useState(false);
+    const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [categories, setCategories] = useState<Category[]>([]);
     const pathname = usePathname();
 
@@ -114,15 +116,15 @@ export default function Navbar() {
                     </Link>
 
                     {/* RIGHT: Search */}
-                    <Link
-                        href="/shop"
+                    <button
+                        onClick={() => setIsSearchOpen(true)}
                         className={`transition-colors z-50 ${isDark ? 'text-black hover:text-gray-600' : 'text-white hover:text-gray-200'}`}
                         aria-label="Search"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                         </svg>
-                    </Link>
+                    </button>
                 </div>
             </nav>
 
@@ -350,6 +352,31 @@ export default function Navbar() {
                         </div>
                     </div>
 
+                </div>
+            </div>
+
+            {/* SEARCH MODAL */}
+            <div
+                className={`fixed inset-0 z-[90] bg-black/80 backdrop-blur-md transition-opacity duration-300 ${isSearchOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+                onClick={() => setIsSearchOpen(false)}
+            >
+                <div className="flex items-center justify-center min-h-screen px-6">
+                    <div
+                        className="w-full max-w-2xl"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <div className="mb-6 text-center">
+                            <h2 className="text-3xl md:text-4xl font-bold text-white mb-2 tracking-tight">Search Products</h2>
+                            <p className="text-gray-400 text-sm">Find your next favorite piece</p>
+                        </div>
+                        <SearchBar />
+                        <button
+                            onClick={() => setIsSearchOpen(false)}
+                            className="mt-6 mx-auto block text-gray-400 hover:text-white text-sm transition-colors"
+                        >
+                            Press ESC or click outside to close
+                        </button>
+                    </div>
                 </div>
             </div>
         </>

@@ -91,6 +91,34 @@ export const GET_PRODUCTS = `
   }
 `;
 
+export const SEARCH_PRODUCTS = `
+  query SearchProducts($search: String!, $first: Int!) {
+    products(first: $first, where: { search: $search }) {
+      nodes {
+        databaseId
+        id
+        slug
+        name
+        image {
+          sourceUrl
+          altText
+        }
+        productCategories {
+          nodes {
+            name
+          }
+        }
+        ... on SimpleProduct {
+          price
+          productFields {
+            price
+          }
+        }
+      }
+    }
+  }
+`;
+
 export const GET_PRODUCT_BY_SLUG = `
   query GetProductBySlug($slug: ID!) {
     product(id: $slug, idType: SLUG) {

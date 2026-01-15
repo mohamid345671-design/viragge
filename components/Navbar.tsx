@@ -67,7 +67,6 @@ export default function Navbar() {
     const contactLinks = [
         { name: 'Contact Us', href: '/contact' },
         { name: 'Shipping & Returns', href: '/shipping-returns' },
-        { name: 'About Us', href: '/about' },
     ];
 
     // Social Links with SVG icons
@@ -360,7 +359,7 @@ export default function Navbar() {
                 className={`fixed inset-0 z-[90] bg-black/80 backdrop-blur-md transition-opacity duration-300 ${isSearchOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
                 onClick={() => setIsSearchOpen(false)}
             >
-                <div className="flex items-center justify-center min-h-screen px-6">
+                <div className="flex items-start justify-center min-h-screen px-6 pt-24">
                     <div
                         className="w-full max-w-2xl"
                         onClick={(e) => e.stopPropagation()}

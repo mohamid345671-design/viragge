@@ -118,7 +118,7 @@ export default function Newsletter() {
                                     placeholder="ENTER YOUR EMAIL"
                                     required
                                     autoComplete="email"
-                                    autoCapitalize="off"
+                                    autoCapitalize="none"
                                     autoCorrect="off"
                                     className="w-full bg-white text-black border-2 border-white/40 py-6 px-8 text-center placeholder-gray-500 focus:border-white focus:ring-2 focus:ring-white/20 focus:outline-none transition-all duration-300 text-base md:text-lg tracking-[0.2em] font-semibold uppercase shadow-lg"
                                     style={{ WebkitAppearance: 'none', opacity: 1, color: '#000000', backgroundColor: '#FFFFFF' }}

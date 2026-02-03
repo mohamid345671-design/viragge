@@ -10,9 +10,10 @@ interface OrderFormProps {
     productPrice: number;
     selectedSize: string;
     selectedColor: string;
+    quantity: number;
 }
 
-export default function OrderForm({ disabled, productName, productId, productPrice, selectedSize, selectedColor }: OrderFormProps) {
+export default function OrderForm({ disabled, productName, productId, productPrice, selectedSize, selectedColor, quantity }: OrderFormProps) {
     const [isSuccess, setIsSuccess] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
@@ -83,9 +84,9 @@ export default function OrderForm({ disabled, productName, productId, productPri
                 lineItems: [
                     {
                         productId: productId,
-                        quantity: 1,
-                        subtotal: productPrice.toString(),
-                        total: productPrice.toString()
+                        quantity: quantity,
+                        subtotal: (productPrice * quantity).toString(),
+                        total: (productPrice * quantity).toString()
                     }
                 ],
                 metaData: [
@@ -96,6 +97,10 @@ export default function OrderForm({ disabled, productName, productId, productPri
                     {
                         key: 'selected_color',
                         value: selectedColor
+                    },
+                    {
+                        key: 'quantity_ordered',
+                        value: quantity.toString()
                     }
                 ]
             };

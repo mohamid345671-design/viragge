@@ -9,10 +9,11 @@ interface ProductOptionsProps {
     onColorSelect?: (color: string) => void;
     selectedColor?: string;
     availableColors?: string; // NEW: from ACF
+    quantity: number;
+    onQuantityChange: (quantity: number) => void;
 }
 
-export default function ProductOptions({ sizes, onSizeSelect, selectedSize, onColorSelect, selectedColor = 'Black', availableColors }: ProductOptionsProps) {
-    const [quantity, setQuantity] = useState(1);
+export default function ProductOptions({ sizes, onSizeSelect, selectedSize, onColorSelect, selectedColor = 'Black', availableColors, quantity, onQuantityChange }: ProductOptionsProps) {
     const [showSizeGuide, setShowSizeGuide] = useState(false);
     const [showValidationError, setShowValidationError] = useState(false);
 
@@ -161,7 +162,7 @@ export default function ProductOptions({ sizes, onSizeSelect, selectedSize, onCo
                     <p className="text-sm font-bold text-black">Quantity</p>
                     <div className="flex items-center gap-4">
                         <button
-                            onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                            onClick={() => onQuantityChange(Math.max(1, quantity - 1))}
                             disabled={quantity <= 1}
                             className="w-12 h-12 border-2 border-gray-300 flex items-center justify-center hover:bg-black hover:text-white hover:border-black transition-all disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-gray-700 disabled:hover:border-gray-300"
                             aria-label="Decrease quantity"
@@ -174,7 +175,7 @@ export default function ProductOptions({ sizes, onSizeSelect, selectedSize, onCo
                         <span className="text-lg font-bold w-12 text-center">{quantity}</span>
 
                         <button
-                            onClick={() => setQuantity(quantity + 1)}
+                            onClick={() => onQuantityChange(quantity + 1)}
                             className="w-12 h-12 border-2 border-gray-300 flex items-center justify-center hover:bg-black hover:text-white hover:border-black transition-all"
                             aria-label="Increase quantity"
                         >

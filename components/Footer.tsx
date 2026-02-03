@@ -33,7 +33,7 @@ export default function Footer({ siteSettings }: FooterProps = {}) {
                     {/* Column 1: Brand - Full width on mobile */}
                     <div className="col-span-2 md:col-span-1 space-y-4 md:space-y-6">
                         <Link href="/" className="text-2xl md:text-3xl font-bold tracking-[0.2em] uppercase">
-                            VIRAGGE
+                            VIRAGgGE
                         </Link>
                         <p className="text-gray-400 text-xs md:text-sm leading-relaxed max-w-xs">
                             Premium tactical streetwear for the modern urbanite.

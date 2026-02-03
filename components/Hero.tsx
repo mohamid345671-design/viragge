@@ -36,7 +36,7 @@ export default function Hero() {
 
             {/* Headline */}
             <h1 className="text-5xl font-black uppercase tracking-tighter leading-[0.85] text-white mb-6 opacity-0 animate-slideUp animate-delay-200 drop-shadow-2xl">
-              Tactical
+              Tactica
               <br />
               <span className="text-gray-300">
                 Luxury

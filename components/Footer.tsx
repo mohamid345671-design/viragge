@@ -21,7 +21,7 @@ export default function Footer({ siteSettings }: FooterProps = {}) {
     // Default fallback URLs
     const instagramUrl = siteSettings?.socialInstagram || 'https://www.instagram.com/viraggethereal?igsh=M2FueHp2N3ppMmUx';
     const tiktokUrl = siteSettings?.socialTiktok || 'https://www.tiktok.com/@viragge';
-    const facebookUrl = siteSettings?.socialFacebook || null;
+    const facebookUrl = siteSettings?.socialFacebook || 'https://www.facebook.com/share/1GUFpuXusB/?mibextid=wwXIfr';
     const youtubeUrl = siteSettings?.socialYoutube || null;
 
     return (

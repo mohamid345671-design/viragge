@@ -8,12 +8,13 @@ interface OrderFormProps {
     productName: string;
     productId: number;
     productPrice: number;
+    productImage?: string;
     selectedSize: string;
     selectedColor: string;
     quantity: number;
 }
 
-export default function OrderForm({ disabled, productName, productId, productPrice, selectedSize, selectedColor, quantity }: OrderFormProps) {
+export default function OrderForm({ disabled, productName, productId, productPrice, productImage, selectedSize, selectedColor, quantity }: OrderFormProps) {
     const [isSuccess, setIsSuccess] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
@@ -30,22 +31,19 @@ export default function OrderForm({ disabled, productName, productId, productPri
 
     // Major Moroccan cities - reordered with most common first
     const cities = [
-        'Casablanca',
-        'Rabat',
-        'Marrakech',
-        'Tangier',
-        'Fes',
-        'Agadir',
-        'Meknes',
-        'Oujda',
-        'Kenitra',
-        'Tetouan',
-        'Safi',
-        'El Jadida',
-        'Nador',
-        'Khouribga',
-        'Beni Mellal',
-        'Taza'
+        'Casablanca', 'Rabat', 'Marrakech', 'Tangier', 'Fes', 'Agadir', 'Meknes', 'Oujda', 'Kenitra', // Top major cities
+        'Afourer', 'Agdz', 'Ait Melloul', 'Ait Ourir', 'Al Hoceima', 'Al Fqih Ben Salah', 
+        'Amizmiz', 'Asilah', 'Azilal', 'Azrou', 'Ben Ahmed', 'Benguerir', 'Beni Ansar', 'Beni Mellal', 
+        'Benslimane', 'Berkane', 'Berrechid', 'Biougra', 'Boujdour', 'Boulemane', 'Bouskoura', 'Bouznika', 
+        'Chefchaouen', 'Chichaoua', 'Dakhla', 'Dar Bouazza', 'Demnate', 'El Hajeb', 'El Jadida', 'El Kelaa des Sraghna', 
+        'Errachidia', 'Essaouira', 'Figuig', 'Fnideq', 'Guelmim', 'Guercif', 'Ifrane', 
+        'Imzouren', 'Inezgane', 'Jerada', 'Kasba Tadla', 'Khemisset', 'Khenifra', 'Khouribga', 
+        'Ksar El Kebir', 'Laayoune', 'Larache', 'Martil', 'M\'diq', 'Midar', 'Midelt', 'Mohammedia', 
+        'Nador', 'Nouaceur', 'Ouarzazate', 'Ouazzane', 'Oued Zem', 'Oulad Teima', 'Oulmes', 
+        'Rommani', 'Safi', 'Salé', 'Sefrou', 'Settat', 'Sidi Bennour', 'Sidi Ifni', 'Sidi Kacem', 
+        'Sidi Rahal', 'Sidi Slimane', 'Sidi Yahya El Gharb', 'Skhirat', 'Smara', 'Souk El Arbaa', 'Tafraout', 
+        'Taliouine', 'Tan-Tan', 'Taounate', 'Taourirt', 'Tarfaya', 'Taroudant', 'Tata', 'Taza', 
+        'Temara', 'Tetouan', 'Tiflet', 'Tinghir', 'Tiznit', 'Youssoufia', 'Zagora', 'Zawiyat Cheikh'
     ];
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -94,15 +92,19 @@ export default function OrderForm({ disabled, productName, productId, productPri
                         key: 'selected_size',
                         value: selectedSize
                     },
-                    {
+                    selectedColor ? {
                         key: 'selected_color',
                         value: selectedColor
-                    },
+                    } : null,
                     {
                         key: 'quantity_ordered',
                         value: quantity.toString()
-                    }
-                ]
+                    },
+                    productImage ? {
+                        key: 'Product Image',
+                        value: productImage
+                    } : null
+                ].filter(Boolean)
             };
 
             // Execute createOrder mutation

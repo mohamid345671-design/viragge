@@ -32,11 +32,11 @@ export default function ProductOptions({ sizes, onSizeSelect, selectedSize, onCo
     // Parse colors from ACF - handle both array and string formats
     let selectedColorNames: string[];
     if (!availableColors) {
-        selectedColorNames = ['Black', 'White', 'Gray'];
+        selectedColorNames = []; // changed to empty array so products without colors show no colors
     } else if (Array.isArray(availableColors)) {
         selectedColorNames = availableColors; // GraphQL returns array directly
     } else {
-        selectedColorNames = availableColors.split(',').map(c => c.trim()); // String format
+        selectedColorNames = availableColors.split(',').map(c => c.trim()).filter(Boolean); // String format
     }
 
     // Filter to only selected colors
@@ -66,60 +66,62 @@ export default function ProductOptions({ sizes, onSizeSelect, selectedSize, onCo
         <>
             <div className="space-y-8">
                 {/* Color Selector */}
-                <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                        <p className="text-sm font-bold text-black">
-                            Color: <span className="font-normal text-gray-700">{selectedColor}</span>
-                        </p>
-                    </div>
-                    <div className="flex items-center gap-4">
-                        {colors.map((color) => (
-                            <button
-                                key={color.name}
-                                onClick={() => onColorSelect?.(color.name)}
-                                className={`relative group flex items-center justify-center transition-all duration-300 ${selectedColor === color.name
-                                    ? 'scale-105'
-                                    : 'hover:scale-105'
-                                    }`}
-                                title={color.name}
-                                aria-label={`Select ${color.name} color`}
-                            >
-                                <div
-                                    className={`w-14 h-14 rounded-full transition-all duration-300 ${selectedColor === color.name
-                                        ? 'ring-[3px] ring-black shadow-lg'
-                                        : 'ring-1 ring-gray-300 hover:ring-2 hover:ring-gray-400 shadow-sm'
+                {colors.length > 0 && (
+                    <div className="space-y-4">
+                        <div className="flex items-center justify-between">
+                            <p className="text-sm font-bold text-black">
+                                Color: <span className="font-normal text-gray-700">{selectedColor}</span>
+                            </p>
+                        </div>
+                        <div className="flex items-center gap-4">
+                            {colors.map((color) => (
+                                <button
+                                    key={color.name}
+                                    onClick={() => onColorSelect?.(color.name)}
+                                    className={`relative group flex items-center justify-center transition-all duration-300 ${selectedColor === color.name
+                                        ? 'scale-105'
+                                        : 'hover:scale-105'
                                         }`}
-                                    style={{
-                                        backgroundColor: color.value,
-                                    }}
+                                    title={color.name}
+                                    aria-label={`Select ${color.name} color`}
                                 >
-                                    {/* Checkmark for selected */}
-                                    {selectedColor === color.name && (
-                                        <div className="absolute inset-0 flex items-center justify-center">
-                                            <svg
-                                                className="w-6 h-6 text-white drop-shadow-lg"
-                                                fill="currentColor"
-                                                viewBox="0 0 20 20"
-                                                style={{ filter: color.name === 'White' ? 'invert(1)' : 'none' }}
-                                            >
-                                                <path
-                                                    fillRule="evenodd"
-                                                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                                    clipRule="evenodd"
-                                                />
-                                            </svg>
-                                        </div>
-                                    )}
-                                </div>
+                                    <div
+                                        className={`w-14 h-14 rounded-full transition-all duration-300 ${selectedColor === color.name
+                                            ? 'ring-[3px] ring-black shadow-lg'
+                                            : 'ring-1 ring-gray-300 hover:ring-2 hover:ring-gray-400 shadow-sm'
+                                            }`}
+                                        style={{
+                                            backgroundColor: color.value,
+                                        }}
+                                    >
+                                        {/* Checkmark for selected */}
+                                        {selectedColor === color.name && (
+                                            <div className="absolute inset-0 flex items-center justify-center">
+                                                <svg
+                                                    className="w-6 h-6 text-white drop-shadow-lg"
+                                                    fill="currentColor"
+                                                    viewBox="0 0 20 20"
+                                                    style={{ filter: color.name === 'White' ? 'invert(1)' : 'none' }}
+                                                >
+                                                    <path
+                                                        fillRule="evenodd"
+                                                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                                        clipRule="evenodd"
+                                                    />
+                                                </svg>
+                                            </div>
+                                        )}
+                                    </div>
 
-                                {/* Color name below swatch */}
-                                <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[11px] text-gray-600 whitespace-nowrap">
-                                    {color.name}
-                                </span>
-                            </button>
-                        ))}
+                                    {/* Color name below swatch */}
+                                    <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[11px] text-gray-600 whitespace-nowrap">
+                                        {color.name}
+                                    </span>
+                                </button>
+                            ))}
+                        </div>
                     </div>
-                </div>
+                )}
 
                 {/* Size Selector */}
                 <div className="space-y-4">

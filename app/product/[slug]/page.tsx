@@ -70,6 +70,21 @@ export default function ProductPage({ params, searchParams }: PageProps) {
                 if (data.product) {
                     console.log('Product found:', data.product.name);
                     setProduct(data.product);
+                    
+                    // Set default color based on available colors
+                    const availableColors = data.product.productFields?.availableColors;
+                    if (availableColors) {
+                        const colorArray = Array.isArray(availableColors) 
+                            ? availableColors 
+                            : availableColors.split(',').map((c: string) => c.trim()).filter(Boolean);
+                        if (colorArray.length > 0) {
+                            setSelectedColor(colorArray[0]);
+                        } else {
+                            setSelectedColor('');
+                        }
+                    } else {
+                        setSelectedColor('');
+                    }
                 } else {
                     console.error('No product in response. Full data:', JSON.stringify(data, null, 2));
                 }
@@ -233,6 +248,7 @@ export default function ProductPage({ params, searchParams }: PageProps) {
                                     productName={product.name}
                                     productId={product.databaseId}
                                     productPrice={displayPrice}
+                                    productImage={product.image?.sourceUrl}
                                     selectedSize={selectedSize}
                                     selectedColor={selectedColor}
                                     quantity={quantity}

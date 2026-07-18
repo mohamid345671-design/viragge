@@ -39,7 +39,7 @@ export default function FloatingSocial() {
 
         return () => window.removeEventListener('scroll', handleScroll);
     }, [isProductPage]);
-
+    // test
     const socials = [
         {
             name: 'YouTube',
